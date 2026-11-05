@@ -10,6 +10,7 @@ data, or sensitive paths.
 
 ## Open
 
+- [ ] `2026-11-05T11:30:00Z` — `claude` — On Windows, `scripts/celld/package.mjs` splits paths on `/` only, so its filter keeps `.assetsignore` (and would keep `.dev.vars`) in `dist/celld/public`, and `celld deploy` then fails with `.assetsignore is not supported`. The Linux Docker build is unaffected.
 - [ ] `2026-11-05T09:30:00Z` — `claude` — On Windows, `vitest run` fails the Google suites with `EBUSY` when `rmSync` removes a still-open SQLite temp file (`GoogleAccountService`, `googleOAuth`, `googleOAuthMigration`), and `pr-preview-access` fails when vitest starts from PowerShell (it spawns whichever `bash` is on PATH) but passes from Git Bash.
 
 - [ ] `2026-10-19T19:28:32Z` — `codex` — `pnpm cf-typegen` regenerates thousands of unrelated runtime types and changes `Env` inheritance, breaking existing Workflow fixtures and ambient bindings. Split binding generation from runtime updates so a new binding can be generated without an unrelated type migration; meanwhile declare new bindings in `src/env.d.ts`.

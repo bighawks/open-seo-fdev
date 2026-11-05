@@ -15,13 +15,13 @@ RUN pnpm build:standalone
 
 FROM node:22-bookworm-slim@sha256:48e4b67d85f87bd551df43704e24d252f56cc5f8e9718841aace50f19948f0f9 AS runtime
 ARG TARGETARCH
-ARG CELLD_VERSION=0.5.1
+ARG CELLD_VERSION=0.6.3
 RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates curl && \
     rm -rf /var/lib/apt/lists/* /usr/local/lib/node_modules /opt/yarn* && \
     rm -f /usr/local/bin/npm /usr/local/bin/npx /usr/local/bin/corepack /usr/local/bin/yarn /usr/local/bin/yarnpkg
 RUN case "$TARGETARCH" in \
-      arm64) triple=aarch64-unknown-linux-gnu; checksum=375c7cd9446d61e6ee2c263d6be792650153ffd7cd562b2c4b6b644776b4494e;; \
-      amd64) triple=x86_64-unknown-linux-gnu; checksum=b9f205da7365ef4a8b2e16f1f48065a8ddd5cda366edc258fea12a097d8ab4b7;; \
+      arm64) triple=aarch64-unknown-linux-gnu; checksum=6d617cdf9f049e43ca6a4e37c4cce5d8e35395c8e86b371c984d32ba7d803bf5;; \
+      amd64) triple=x86_64-unknown-linux-gnu; checksum=5084a083472cf036551a7eac63fa24d22bb9a56323c517f63205724c12783047;; \
       *) exit 1;; \
     esac && \
     curl -fsSL "https://github.com/denoland/celld/releases/download/v${CELLD_VERSION}/celld-${triple}.gz" -o /tmp/celld.gz && \
