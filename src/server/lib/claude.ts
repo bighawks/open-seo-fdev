@@ -1,4 +1,4 @@
-import { createAnthropic } from "@ai-sdk/anthropic";
+import { type AnthropicProvider, createAnthropic } from "@ai-sdk/anthropic";
 import { ConfigurationError, createGatewayFetch } from "@every-app/sdk/server";
 import { wrapLanguageModel } from "ai";
 import { isEveryAppAuthMode } from "@/lib/auth-mode";
@@ -26,6 +26,10 @@ const SERVER_SIDE_FALLBACK_MODELS = [
   "claude-opus-5-5",
   "claude-fable-5-1",
 ];
+
+type ClaudePrompt = Parameters<
+  ReturnType<AnthropicProvider>["doGenerate"]
+>[0]["prompt"];
 
 function isBehindEveryAppGateway(env: object): boolean {
   return isEveryAppAuthMode(getEnvValueSync(env, "AUTH_MODE"));
@@ -73,6 +77,31 @@ export async function requireClaudeAccess(): Promise<ClaudeAccess> {
 }
 
 /**
+ * Anthropic only caches where asked. SAM's 65 tools alone are ~46k tokens,
+ * resent on every step, so without this a one-line question costs about $0.20. The
+ * system breakpoint covers the tools and system prompt, the last message
+ * covers the rest of the turn's tool loop. Prompts too short to cache are
+ * ignored by the API, and moving a breakpoint doesn't invalidate thinking.
+ */
+function withCacheBreakpoints(prompt: ClaudePrompt): ClaudePrompt {
+  const lastSystem = prompt.map(({ role }) => role).lastIndexOf("system");
+  return prompt.map((message, index): ClaudePrompt[number] =>
+    index === lastSystem || index === prompt.length - 1
+      ? {
+          ...message,
+          providerOptions: {
+            ...message.providerOptions,
+            anthropic: {
+              ...message.providerOptions?.anthropic,
+              cacheControl: { type: "ephemeral" },
+            },
+          },
+        }
+      : message,
+  );
+}
+
+/**
  * The AI SDK LanguageModel for the chat agent and the one-shot research calls.
  * Effort rides in a middleware because Think's `getModel()` only returns a
  * model, and it is sync, so SAM reads its access and model from its DO env.
@@ -104,6 +133,7 @@ export function buildChatAgentModel(
       specificationVersion: "v3",
       transformParams: async ({ params }) => ({
         ...params,
+        prompt: withCacheBreakpoints(params.prompt),
         providerOptions: {
           ...params.providerOptions,
           anthropic: {

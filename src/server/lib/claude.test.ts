@@ -28,6 +28,32 @@ async function sentRequest(model: ReturnType<typeof buildChatAgentModel>) {
   };
 }
 
+it("asks for caching on the system prompt and the last message", async () => {
+  const fetchMock = vi
+    .spyOn(globalThis, "fetch")
+    .mockResolvedValueOnce(completion());
+  await generateText({
+    model: buildChatAgentModel({ apiKey: "key" }),
+    system: "You are SAM.",
+    messages: [
+      { role: "user", content: "first" },
+      { role: "assistant", content: "ok" },
+      { role: "user", content: "second" },
+    ],
+  });
+  const raw = z.string().parse(fetchMock.mock.lastCall?.[1]?.body);
+  const ephemeral = { type: "ephemeral" };
+  expect(JSON.parse(raw)).toMatchObject({
+    system: [{ cache_control: ephemeral }],
+    messages: [
+      { content: [{ text: "first" }] },
+      { content: [{ text: "ok" }] },
+      { content: [{ text: "second", cache_control: ephemeral }] },
+    ],
+  });
+  expect(raw.match(/cache_control/g)).toHaveLength(2);
+});
+
 it("lets the API drop thinking blocks Think's history edits invalidated", async () => {
   const { body, headers } = await sentRequest(
     buildChatAgentModel({ apiKey: "key" }),
