@@ -7,7 +7,7 @@ export const Route = createFileRoute("/_campaign/agents")({
     buildPageSeo({
       title: "Give your agent SEO superpowers - OpenSEO",
       description:
-        "Connect OpenSEO to Claude, Codex, or any MCP client in 2 minutes for live keyword and competitor research. Open source, from $10/month.",
+        "Connect OpenSEO to Claude or any MCP client in 2 minutes for live keyword and competitor research. Open source, from $10/month.",
       path: "/agents",
     }),
   component: AgentLandingPage,

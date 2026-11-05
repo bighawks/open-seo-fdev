@@ -18,8 +18,8 @@ export function DashboardAgentCard({ projectId }: { projectId: string }) {
     <AgentCard
       projectId={projectId}
       icons={ONE_CLICK_INSTALLS.map(({ Icon }) => Icon)}
-      title="Use OpenSEO in ChatGPT or Claude"
-      description="Research keywords and audit your site from the chatbot you already use."
+      title="Use OpenSEO in Claude"
+      description="Research keywords and audit your site from Claude."
     >
       {ONE_CLICK_INSTALLS.map(({ agent, name, href, Icon }) => (
         <Button
@@ -59,7 +59,7 @@ export function DashboardAgentPromptCard({
   if (!connections.data) return null;
 
   // An API key or a teammate's agent leaves this person with no connections
-  // of their own, so offer both chat apps.
+  // of their own, so offer Claude.
   const grants = connections.data;
   const chats = ONE_CLICK_INSTALLS.filter(
     ({ agent }) =>

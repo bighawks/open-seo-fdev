@@ -140,7 +140,7 @@ export function ProjectWebsiteSetup({ projectId }: { projectId: string }) {
             </Button>
             <p className="text-xs leading-relaxed text-muted-foreground">
               {isEveryAppClientAuthMode()
-                ? "Research and a first run of your prompts use the DataForSEO and OpenRouter keys on your Every App gateway."
+                ? "Research and a first run of your prompts use the DataForSEO and Anthropic keys on your Every App gateway."
                 : "Research and a first run of your prompts use a small amount of usage credits."}
             </p>
           </div>

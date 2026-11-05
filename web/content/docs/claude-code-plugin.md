@@ -103,4 +103,4 @@ If the OpenSEO connection doesn't show as authenticated, run `/mcp`, select Open
 
 ## Other clients
 
-This plugin is for Claude Code and Claude Cowork. For Codex CLI, use the [OpenSEO plugin for Codex](/docs/codex-plugin) instead. For Cursor, Codex Desktop, or an API key setup, see [Set up OpenSEO MCP](/docs/mcp) and [Set up OpenSEO Agent Skills](/docs/skills/setup).
+This plugin is for Claude Code and Claude Cowork. For an API key setup, see [Set up MCP](/docs/mcp).

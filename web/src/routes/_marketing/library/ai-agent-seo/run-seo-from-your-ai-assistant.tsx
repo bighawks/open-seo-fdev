@@ -18,7 +18,7 @@ const faqs = [
   {
     question: "Which AI assistants work with the OpenSEO MCP?",
     answer:
-      "Claude Code, Claude Desktop, Codex and Cursor, through one server configuration. The docs carry the setup for each. Agent skills, which are SKILL.md files describing SEO workflows, install alongside it.",
+      "Claude Code and Claude Desktop, through one server configuration. The docs carry the setup for each. Agent skills, which are SKILL.md files describing SEO workflows, install alongside it.",
   },
   {
     question: "Does using the MCP cost credits?",

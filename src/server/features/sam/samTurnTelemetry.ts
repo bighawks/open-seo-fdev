@@ -81,7 +81,7 @@ export class SamTurnStats {
       $ai_parent_id: this.turnId,
       $ai_span_id: crypto.randomUUID(),
       $ai_span_name: `step ${this.steps}`,
-      $ai_provider: "openrouter",
+      $ai_provider: "anthropic",
       $ai_model: ctx.response.modelId,
       $ai_input_tokens: usage.inputTokens ?? 0,
       $ai_output_tokens: usage.outputTokens ?? 0,
@@ -138,7 +138,7 @@ export class SamTurnStats {
     return {
       $ai_trace_id: this.turnId,
       $ai_span_name: "sam_turn",
-      $ai_provider: "openrouter",
+      $ai_provider: "anthropic",
       $ai_model: this.model,
       $ai_latency: (Date.now() - this.startedAt) / 1000,
       $ai_is_error: status === "error",

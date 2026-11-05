@@ -28,7 +28,7 @@ deployment branches to `main`. Then add the following.
 | `LOOPS_API_KEY`                    | Transactional email and contact sync                               |
 | `AUTUMN_SECRET_KEY`                | Billing                                                            |
 | `AUTUMN_WEBHOOK_SECRET`            | Billing webhook verification                                       |
-| `OPENROUTER_API_KEY`               | SAM chat agent (optional)                                          |
+| `ANTHROPIC_API_KEY`                | SAM chat agent (optional)                                          |
 | `DUB_API_KEY`                      | Referral tracking (optional)                                       |
 | `CONTEXT_API_KEY`                  | Site audit JavaScript rendering fallback (optional)                |
 | `META_CONVERSIONS_API_TOKEN`       | Meta ad signup attribution (optional)                              |
@@ -78,7 +78,7 @@ binding authorization failed".
 | `META_PIXEL_ID`                           | Meta pixel ID for signup attribution; optional |
 | `POSTHOG_PUBLIC_KEY`                      | Existing analytics key; optional               |
 | `POSTHOG_HOST`                            | Existing analytics ingestion host              |
-| `OPENROUTER_MODEL`                        | Optional model override                        |
+| `ANTHROPIC_MODEL`                         | Optional model override                        |
 | `OPENSEO_TELEMETRY_DISABLED`              | Optional telemetry setting                     |
 
 How to create the account deletion keys is in

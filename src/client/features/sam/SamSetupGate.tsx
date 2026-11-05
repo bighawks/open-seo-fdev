@@ -23,17 +23,17 @@ export function SamSetupGate({
         <>
           {isEveryAppClientAuthMode() ? (
             <p>
-              SAM, OpenSEO&apos;s in-app AI agent, uses OpenRouter through your
-              Every App gateway. An admin creates a key on OpenRouter and sets
-              it on the gateway with{" "}
-              <code>pnpm everyapp secret set OPENROUTER_API_KEY</code>, then
+              SAM, OpenSEO&apos;s in-app AI agent, uses Claude through your
+              Every App gateway. An admin creates a key in the Claude Console
+              and sets it on the gateway with{" "}
+              <code>pnpm everyapp secret set ANTHROPIC_API_KEY</code>, then
               confirm here.
             </p>
           ) : (
             <p>
-              SAM, OpenSEO&apos;s in-app AI agent, needs an OpenRouter API key.
-              Create a key on OpenRouter, set it as the{" "}
-              <code>OPENROUTER_API_KEY</code> environment variable, restart
+              SAM, OpenSEO&apos;s in-app AI agent, needs an Anthropic API key.
+              Create a key in the Claude Console, set it as the{" "}
+              <code>ANTHROPIC_API_KEY</code> environment variable, restart
               OpenSEO, then confirm here.
             </p>
           )}
@@ -41,9 +41,9 @@ export function SamSetupGate({
             Step-by-step instructions for every deployment are in the{" "}
             <Link
               className="underline underline-offset-2 hover:text-foreground"
-              to="/help/openrouter-api-key"
+              to="/help/anthropic-api-key"
             >
-              OpenRouter API key setup guide
+              Anthropic API key setup guide
             </Link>
             .
           </p>
@@ -60,13 +60,13 @@ export function SamSetupGate({
             nativeButton={false}
             render={
               <a
-                href="https://openrouter.ai/settings/keys"
+                href="https://platform.claude.com/settings/keys"
                 target="_blank"
                 rel="noreferrer"
               />
             }
           >
-            Open OpenRouter Keys
+            Open Claude Console Keys
           </Button>
         </>
       }

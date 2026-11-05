@@ -18,7 +18,7 @@ const faqs = [
   {
     question: "What is MCP and do I need it for SEO?",
     answer:
-      "The Model Context Protocol lets an AI assistant call external tools and receive data. Without it the assistant knows only what it was trained on and what you paste in. With an SEO MCP server connected, it reads first-party and research data directly. OpenSEO's connects to Claude Code, Claude Desktop, Codex and Cursor.",
+      "The Model Context Protocol lets an AI assistant call external tools and receive data. Without it the assistant knows only what it was trained on and what you paste in. With an SEO MCP server connected, it reads first-party and research data directly. OpenSEO's connects to Claude Code and Claude Desktop.",
   },
   {
     question: "Which SEO tasks should be automated and which should not?",
@@ -89,12 +89,12 @@ function AiAgentSeoLibraryPage() {
           The AI-Agent SEO Strategy Library
         </h1>
         <p className="mt-5 text-lg leading-8 text-[var(--color-brand-muted)]">
-          Four strategies for the person who already has Claude, Codex or Cursor
-          open and wants the SEO work to happen there: what to connect and the
-          first five prompts, what a schedule does and what stays with a person,
-          why the brief is the human&rsquo;s job, and how to make a good run
-          happen again. Every one is built on real runs through the OpenSEO MCP
-          and ends with a copy-paste prompt.
+          Four strategies for the person who already has Claude open and wants
+          the SEO work to happen there: what to connect and the first five
+          prompts, what a schedule does and what stays with a person, why the
+          brief is the human&rsquo;s job, and how to make a good run happen
+          again. Every one is built on real runs through the OpenSEO MCP and
+          ends with a copy-paste prompt.
         </p>
       </header>
 
@@ -173,14 +173,14 @@ function AiAgentSeoLibraryPage() {
           What the OpenSEO MCP gives an agent
         </h2>
         <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--color-brand-muted)]">
-          One server, connected to Claude Code, Claude Desktop, Codex or Cursor.
-          Through it the assistant reads Search Console performance and URL
-          inspection for a connected property at no credit cost, pulls keyword
-          metrics and research, fetches live SERP results, reads domain and
-          backlink data, creates and runs rank trackers with a cost estimate
-          first, starts and reads site audits, runs local rank grids, and reads
-          and updates the project&rsquo;s shared context. Research calls that
-          hit a data provider use credits and say so before they run.
+          One server, connected to Claude Code or Claude Desktop. Through it the
+          assistant reads Search Console performance and URL inspection for a
+          connected property at no credit cost, pulls keyword metrics and
+          research, fetches live SERP results, reads domain and backlink data,
+          creates and runs rank trackers with a cost estimate first, starts and
+          reads site audits, runs local rank grids, and reads and updates the
+          project&rsquo;s shared context. Research calls that hit a data
+          provider use credits and say so before they run.
         </p>
         <p className="mt-3 max-w-2xl text-sm leading-6 text-[var(--color-brand-muted)]">
           Alongside it, the{" "}

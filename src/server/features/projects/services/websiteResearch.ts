@@ -11,15 +11,12 @@ import {
   billResearchSpend,
   type ResearchSpend,
 } from "@/server/billing/researchSpend";
-import { requireOpenRouterCostUsd } from "@/server/lib/chatAgent";
+import { requireClaudeCostUsd } from "@/server/lib/chatAgent";
 import { fetchLiveSerp } from "@/server/lib/dataforseo/serp";
 import { DataforseoChargedTaskError } from "@/server/lib/dataforseo/envelope";
 import { normalizeBacklinksTarget } from "@/server/lib/dataforseoBacklinksTarget";
 import { AppError } from "@/server/lib/errors";
-import {
-  buildChatAgentModel,
-  requireOpenRouterAccess,
-} from "@/server/lib/openrouter";
+import { buildChatAgentModel, requireClaudeAccess } from "@/server/lib/claude";
 import { getOptionalEnvValue } from "@/server/lib/runtime-env";
 import { readSite } from "@/server/lib/scrape";
 import {
@@ -176,8 +173,8 @@ export async function researchWebsite(
       sources.clear();
       return generateText({
         model: buildChatAgentModel(
-          await requireOpenRouterAccess(),
-          await getOptionalEnvValue("OPENROUTER_MODEL"),
+          await requireClaudeAccess(),
+          await getOptionalEnvValue("ANTHROPIC_MODEL"),
           "low",
         ),
         output: Output.object({
@@ -339,9 +336,9 @@ export async function researchWebsite(
           : undefined,
         onStepFinish: async (step) => {
           spend.push({
-            provider: "openrouter",
+            provider: "anthropic",
             creditFeature: "agent",
-            costUsd: await requireOpenRouterCostUsd(step.providerMetadata),
+            costUsd: await requireClaudeCostUsd(step),
             operation: "project_website_research",
           });
         },

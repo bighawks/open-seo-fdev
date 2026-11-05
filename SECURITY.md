@@ -14,7 +14,7 @@ In scope:
 
 Out of scope:
 
-- Third-party services OpenSEO calls (DataForSEO, Google, Autumn, OpenRouter and others). Report those to the vendor.
+- Third-party services OpenSEO calls (DataForSEO, Google, Autumn, Anthropic and others). Report those to the vendor.
 - Misconfiguration of a self-hosted deployment.
 - Denial of service, load testing, and reports that only point out a missing rate limit.
 - `local_noauth` mode has no login by design. Run it behind your own auth.

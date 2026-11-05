@@ -17,7 +17,6 @@ import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as VerifyEmailRouteImport } from './routes/verify-email'
 import { Route as Char91DotwellKnownChar93HttpMessageSignaturesDirectoryRouteImport } from './routes/[.well-known]/http-message-signatures-directory'
-import { Route as Char91DotwellKnownChar93OpenaiAppsChallengeRouteImport } from './routes/[.well-known]/openai-apps-challenge'
 import { Route as AppIndexRouteImport } from './routes/_app/index'
 import { Route as AppAiRouteImport } from './routes/_app/ai'
 import { Route as AppBillingRouteImport } from './routes/_app/billing'
@@ -35,8 +34,8 @@ import { Route as ApiPrivacyRegionRouteImport } from './routes/api/privacy-regio
 import { Route as ApiSignUpStatusRouteImport } from './routes/api/sign-up-status'
 import { Route as RReportIdRouteImport } from './routes/r/$reportId'
 import { Route as AppBillingFixPaymentRouteImport } from './routes/_app/billing_.fix-payment'
+import { Route as AppHelpAnthropicApiKeyRouteImport } from './routes/_app/help/anthropic-api-key'
 import { Route as AppHelpDataforseoApiKeyRouteImport } from './routes/_app/help/dataforseo-api-key'
-import { Route as AppHelpOpenrouterApiKeyRouteImport } from './routes/_app/help/openrouter-api-key'
 import { Route as AppPProjectIdRouteRouteImport } from './routes/_app/p/$projectId/route'
 import { Route as AppSettingsIndexRouteImport } from './routes/_app/settings/index'
 import { Route as AppSettingsOrganizationRouteImport } from './routes/_app/settings/organization'
@@ -117,12 +116,6 @@ const Char91DotwellKnownChar93HttpMessageSignaturesDirectoryRoute =
   Char91DotwellKnownChar93HttpMessageSignaturesDirectoryRouteImport.update({
     id: '/.well-known/http-message-signatures-directory',
     path: '/.well-known/http-message-signatures-directory',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const Char91DotwellKnownChar93OpenaiAppsChallengeRoute =
-  Char91DotwellKnownChar93OpenaiAppsChallengeRouteImport.update({
-    id: '/.well-known/openai-apps-challenge',
-    path: '/.well-known/openai-apps-challenge',
     getParentRoute: () => rootRouteImport,
   } as any)
 const AppIndexRoute = AppIndexRouteImport.update({
@@ -211,14 +204,14 @@ const AppBillingFixPaymentRoute = AppBillingFixPaymentRouteImport.update({
   path: '/billing/fix-payment',
   getParentRoute: () => AppRouteRoute,
 } as any)
+const AppHelpAnthropicApiKeyRoute = AppHelpAnthropicApiKeyRouteImport.update({
+  id: '/help/anthropic-api-key',
+  path: '/help/anthropic-api-key',
+  getParentRoute: () => AppRouteRoute,
+} as any)
 const AppHelpDataforseoApiKeyRoute = AppHelpDataforseoApiKeyRouteImport.update({
   id: '/help/dataforseo-api-key',
   path: '/help/dataforseo-api-key',
-  getParentRoute: () => AppRouteRoute,
-} as any)
-const AppHelpOpenrouterApiKeyRoute = AppHelpOpenrouterApiKeyRouteImport.update({
-  id: '/help/openrouter-api-key',
-  path: '/help/openrouter-api-key',
   getParentRoute: () => AppRouteRoute,
 } as any)
 const AppPProjectIdRouteRoute = AppPProjectIdRouteRouteImport.update({
@@ -465,7 +458,6 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/verify-email': typeof VerifyEmailRoute
   '/.well-known/http-message-signatures-directory': typeof Char91DotwellKnownChar93HttpMessageSignaturesDirectoryRoute
-  '/.well-known/openai-apps-challenge': typeof Char91DotwellKnownChar93OpenaiAppsChallengeRoute
   '/ai': typeof AppAiRoute
   '/billing': typeof AppBillingRoute
   '/projects': typeof AppProjectsRoute
@@ -483,8 +475,8 @@ export interface FileRoutesByFullPath {
   '/r/$reportId': typeof RReportIdRoute
   '/p/$projectId': typeof AppPProjectIdRouteRouteWithChildren
   '/billing/fix-payment': typeof AppBillingFixPaymentRoute
+  '/help/anthropic-api-key': typeof AppHelpAnthropicApiKeyRoute
   '/help/dataforseo-api-key': typeof AppHelpDataforseoApiKeyRoute
-  '/help/openrouter-api-key': typeof AppHelpOpenrouterApiKeyRoute
   '/settings/organization': typeof AppSettingsOrganizationRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/autumn/$': typeof ApiAutumnSplatRoute
@@ -535,7 +527,6 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/verify-email': typeof VerifyEmailRoute
   '/.well-known/http-message-signatures-directory': typeof Char91DotwellKnownChar93HttpMessageSignaturesDirectoryRoute
-  '/.well-known/openai-apps-challenge': typeof Char91DotwellKnownChar93OpenaiAppsChallengeRoute
   '/ai': typeof AppAiRoute
   '/billing': typeof AppBillingRoute
   '/projects': typeof AppProjectsRoute
@@ -551,8 +542,8 @@ export interface FileRoutesByTo {
   '/api/sign-up-status': typeof ApiSignUpStatusRoute
   '/r/$reportId': typeof RReportIdRoute
   '/billing/fix-payment': typeof AppBillingFixPaymentRoute
+  '/help/anthropic-api-key': typeof AppHelpAnthropicApiKeyRoute
   '/help/dataforseo-api-key': typeof AppHelpDataforseoApiKeyRoute
-  '/help/openrouter-api-key': typeof AppHelpOpenrouterApiKeyRoute
   '/settings/organization': typeof AppSettingsOrganizationRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/autumn/$': typeof ApiAutumnSplatRoute
@@ -602,7 +593,6 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/verify-email': typeof VerifyEmailRoute
   '/.well-known/http-message-signatures-directory': typeof Char91DotwellKnownChar93HttpMessageSignaturesDirectoryRoute
-  '/.well-known/openai-apps-challenge': typeof Char91DotwellKnownChar93OpenaiAppsChallengeRoute
   '/_app/ai': typeof AppAiRoute
   '/_app/billing': typeof AppBillingRoute
   '/_app/projects': typeof AppProjectsRoute
@@ -621,8 +611,8 @@ export interface FileRoutesById {
   '/_app/': typeof AppIndexRoute
   '/_app/p/$projectId': typeof AppPProjectIdRouteRouteWithChildren
   '/_app/billing_/fix-payment': typeof AppBillingFixPaymentRoute
+  '/_app/help/anthropic-api-key': typeof AppHelpAnthropicApiKeyRoute
   '/_app/help/dataforseo-api-key': typeof AppHelpDataforseoApiKeyRoute
-  '/_app/help/openrouter-api-key': typeof AppHelpOpenrouterApiKeyRoute
   '/_app/settings/organization': typeof AppSettingsOrganizationRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/autumn/$': typeof ApiAutumnSplatRoute
@@ -675,7 +665,6 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/verify-email'
     | '/.well-known/http-message-signatures-directory'
-    | '/.well-known/openai-apps-challenge'
     | '/ai'
     | '/billing'
     | '/projects'
@@ -693,8 +682,8 @@ export interface FileRouteTypes {
     | '/r/$reportId'
     | '/p/$projectId'
     | '/billing/fix-payment'
+    | '/help/anthropic-api-key'
     | '/help/dataforseo-api-key'
-    | '/help/openrouter-api-key'
     | '/settings/organization'
     | '/api/auth/$'
     | '/api/autumn/$'
@@ -745,7 +734,6 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/verify-email'
     | '/.well-known/http-message-signatures-directory'
-    | '/.well-known/openai-apps-challenge'
     | '/ai'
     | '/billing'
     | '/projects'
@@ -761,8 +749,8 @@ export interface FileRouteTypes {
     | '/api/sign-up-status'
     | '/r/$reportId'
     | '/billing/fix-payment'
+    | '/help/anthropic-api-key'
     | '/help/dataforseo-api-key'
-    | '/help/openrouter-api-key'
     | '/settings/organization'
     | '/api/auth/$'
     | '/api/autumn/$'
@@ -811,7 +799,6 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/verify-email'
     | '/.well-known/http-message-signatures-directory'
-    | '/.well-known/openai-apps-challenge'
     | '/_app/ai'
     | '/_app/billing'
     | '/_app/projects'
@@ -830,8 +817,8 @@ export interface FileRouteTypes {
     | '/_app/'
     | '/_app/p/$projectId'
     | '/_app/billing_/fix-payment'
+    | '/_app/help/anthropic-api-key'
     | '/_app/help/dataforseo-api-key'
-    | '/_app/help/openrouter-api-key'
     | '/_app/settings/organization'
     | '/api/auth/$'
     | '/api/autumn/$'
@@ -885,7 +872,6 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   VerifyEmailRoute: typeof VerifyEmailRoute
   Char91DotwellKnownChar93HttpMessageSignaturesDirectoryRoute: typeof Char91DotwellKnownChar93HttpMessageSignaturesDirectoryRoute
-  Char91DotwellKnownChar93OpenaiAppsChallengeRoute: typeof Char91DotwellKnownChar93OpenaiAppsChallengeRoute
   AcceptInvitationIdRoute: typeof AcceptInvitationIdRoute
   ApiHealthRoute: typeof ApiHealthRoute
   ApiPrivacyRegionRoute: typeof ApiPrivacyRegionRoute
@@ -959,13 +945,6 @@ declare module '@tanstack/react-router' {
       path: '/.well-known/http-message-signatures-directory'
       fullPath: '/.well-known/http-message-signatures-directory'
       preLoaderRoute: typeof Char91DotwellKnownChar93HttpMessageSignaturesDirectoryRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/.well-known/openai-apps-challenge': {
-      id: '/.well-known/openai-apps-challenge'
-      path: '/.well-known/openai-apps-challenge'
-      fullPath: '/.well-known/openai-apps-challenge'
-      preLoaderRoute: typeof Char91DotwellKnownChar93OpenaiAppsChallengeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_app/': {
@@ -1087,18 +1066,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppBillingFixPaymentRouteImport
       parentRoute: typeof AppRouteRoute
     }
+    '/_app/help/anthropic-api-key': {
+      id: '/_app/help/anthropic-api-key'
+      path: '/help/anthropic-api-key'
+      fullPath: '/help/anthropic-api-key'
+      preLoaderRoute: typeof AppHelpAnthropicApiKeyRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
     '/_app/help/dataforseo-api-key': {
       id: '/_app/help/dataforseo-api-key'
       path: '/help/dataforseo-api-key'
       fullPath: '/help/dataforseo-api-key'
       preLoaderRoute: typeof AppHelpDataforseoApiKeyRouteImport
-      parentRoute: typeof AppRouteRoute
-    }
-    '/_app/help/openrouter-api-key': {
-      id: '/_app/help/openrouter-api-key'
-      path: '/help/openrouter-api-key'
-      fullPath: '/help/openrouter-api-key'
-      preLoaderRoute: typeof AppHelpOpenrouterApiKeyRouteImport
       parentRoute: typeof AppRouteRoute
     }
     '/_app/p/$projectId': {
@@ -1545,8 +1524,8 @@ interface AppRouteRouteChildren {
   AppIndexRoute: typeof AppIndexRoute
   AppPProjectIdRouteRoute: typeof AppPProjectIdRouteRouteWithChildren
   AppBillingFixPaymentRoute: typeof AppBillingFixPaymentRoute
+  AppHelpAnthropicApiKeyRoute: typeof AppHelpAnthropicApiKeyRoute
   AppHelpDataforseoApiKeyRoute: typeof AppHelpDataforseoApiKeyRoute
-  AppHelpOpenrouterApiKeyRoute: typeof AppHelpOpenrouterApiKeyRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
@@ -1558,8 +1537,8 @@ const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppIndexRoute: AppIndexRoute,
   AppPProjectIdRouteRoute: AppPProjectIdRouteRouteWithChildren,
   AppBillingFixPaymentRoute: AppBillingFixPaymentRoute,
+  AppHelpAnthropicApiKeyRoute: AppHelpAnthropicApiKeyRoute,
   AppHelpDataforseoApiKeyRoute: AppHelpDataforseoApiKeyRoute,
-  AppHelpOpenrouterApiKeyRoute: AppHelpOpenrouterApiKeyRoute,
 }
 
 const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
@@ -1606,8 +1585,6 @@ const rootRouteChildren: RootRouteChildren = {
   VerifyEmailRoute: VerifyEmailRoute,
   Char91DotwellKnownChar93HttpMessageSignaturesDirectoryRoute:
     Char91DotwellKnownChar93HttpMessageSignaturesDirectoryRoute,
-  Char91DotwellKnownChar93OpenaiAppsChallengeRoute:
-    Char91DotwellKnownChar93OpenaiAppsChallengeRoute,
   AcceptInvitationIdRoute: AcceptInvitationIdRoute,
   ApiHealthRoute: ApiHealthRoute,
   ApiPrivacyRegionRoute: ApiPrivacyRegionRoute,

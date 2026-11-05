@@ -62,7 +62,7 @@ export async function recordExternalMcpToolCall(caller: {
  */
 export async function markMcpConnected(
   user: { userId: string; userEmail: string; organizationId: string },
-  agentProvider?: "claude" | "chatgpt",
+  agentProvider?: "claude",
 ): Promise<void> {
   const activation = await ActivationRepository.getOrganizationActivation(
     user.organizationId,

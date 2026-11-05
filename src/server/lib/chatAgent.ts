@@ -1,6 +1,6 @@
-import type { LanguageModelV3 } from "@openrouter/ai-sdk-provider";
+import type { AnthropicProvider } from "@ai-sdk/anthropic";
 import { subscribe } from "agents/observability";
-import { z } from "zod";
+import type { LanguageModelUsage } from "ai";
 import { isHostedServerAuthMode } from "@/server/lib/runtime-env";
 
 // The chat agent's most common failure modes — a provider stream dying
@@ -24,34 +24,94 @@ subscribe("chat", (event) => {
   }
 });
 
-// OpenRouter (with usage accounting on) reports the real USD cost of each
-// response under providerMetadata.openrouter.usage.cost. Used by SAM to meter
-// LLM spend against the credit pool.
-const openRouterUsageSchema = z.object({
-  openrouter: z.object({ usage: z.object({ cost: z.number() }) }),
-});
+// The Anthropic API reports tokens, not dollars, so cost comes from this table:
+// USD per million tokens at first-party rates. Most specific id first: lookup is
+// by prefix. A model missing here costs nothing off hosted and fails closed on
+// hosted (requireClaudeCostUsd), so add a row when pointing ANTHROPIC_MODEL at
+// a new one.
+const CLAUDE_PRICES = [
+  {
+    model: "claude-fable-5-1",
+    input: 10,
+    output: 50,
+    cacheRead: 0.25,
+    cacheWrite: 12.5,
+  },
+  {
+    model: "claude-opus-5-5",
+    input: 4,
+    output: 20,
+    cacheRead: 0.2,
+    cacheWrite: 5,
+  },
+  {
+    model: "claude-opus-5",
+    input: 5,
+    output: 25,
+    cacheRead: 0.5,
+    cacheWrite: 6.25,
+  },
+  {
+    model: "claude-sonnet-5-5",
+    input: 2,
+    output: 10,
+    cacheRead: 0.2,
+    cacheWrite: 2.5,
+  },
+  {
+    model: "claude-sonnet-5",
+    input: 2,
+    output: 10,
+    cacheRead: 0.2,
+    cacheWrite: 2.5,
+  },
+];
 
-export function openRouterCostUsd(providerMetadata: unknown): number {
-  const parsed = openRouterUsageSchema.safeParse(providerMetadata);
-  return parsed.success ? parsed.data.openrouter.usage.cost : 0;
+type ClaudeCompletion = {
+  usage: LanguageModelUsage;
+  response: { modelId: string };
+};
+
+function knownClaudeCostUsd({ usage, response }: ClaudeCompletion) {
+  const price = CLAUDE_PRICES.find(({ model }) =>
+    response.modelId.startsWith(model),
+  );
+  if (!price) return null;
+  const { noCacheTokens, cacheReadTokens, cacheWriteTokens } =
+    usage.inputTokenDetails;
+  const uncached = noCacheTokens ?? usage.inputTokens ?? 0;
+  return (
+    (uncached * price.input +
+      (cacheReadTokens ?? 0) * price.cacheRead +
+      (cacheWriteTokens ?? 0) * price.cacheWrite +
+      (usage.outputTokens ?? 0) * price.output) /
+    1_000_000
+  );
+}
+
+/** A step or response's USD cost. Used by SAM to meter against the credit pool. */
+export function claudeCostUsd(completion: ClaudeCompletion): number {
+  return knownClaudeCostUsd(completion) ?? 0;
 }
 
 /**
- * The cost hosted billing settles, so hosted fails closed when it is missing.
- * Off hosted nothing is billed, and a self-host's own OPENROUTER_BASE_URL
- * provider may report no cost at all.
+ * The cost hosted billing settles, so hosted fails closed when it is unknown.
+ * Off hosted nothing is billed.
  */
-export async function requireOpenRouterCostUsd(
-  providerMetadata: unknown,
+export async function requireClaudeCostUsd(
+  completion: ClaudeCompletion,
 ): Promise<number> {
-  const parsed = openRouterUsageSchema.safeParse(providerMetadata);
-  if (parsed.success) return parsed.data.openrouter.usage.cost;
-  if (await isHostedServerAuthMode()) throw parsed.error;
+  const cost = knownClaudeCostUsd(completion);
+  if (cost !== null) return cost;
+  if (await isHostedServerAuthMode()) {
+    throw new Error(`No price for model ${completion.response.modelId}`);
+  }
   return 0;
 }
 
-// The provider package re-exports only LanguageModelV3 itself, so the stream
-// shape is derived from the interface.
+// The provider package exports only the provider's type, so the model and its
+// stream shape are derived from it.
+type LanguageModelV3 = ReturnType<AnthropicProvider>;
 type StreamResult = Awaited<ReturnType<LanguageModelV3["doStream"]>>;
 
 // Nothing is generated, so every counter is zero and there is no provider

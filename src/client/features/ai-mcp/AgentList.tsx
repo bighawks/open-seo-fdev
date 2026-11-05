@@ -1,18 +1,6 @@
-import {
-  ClaudeIcon,
-  GrokIcon,
-  HermesIcon,
-  OpenAIIcon,
-  OpenClawIcon,
-} from "./AgentIcons";
+import { ClaudeIcon } from "./AgentIcons";
 
-const AGENTS = [
-  { name: "Claude Code", Icon: ClaudeIcon },
-  { name: "ChatGPT", Icon: OpenAIIcon },
-  { name: "Grok Bot", Icon: GrokIcon },
-  { name: "Hermes", Icon: HermesIcon },
-  { name: "OpenClaw", Icon: OpenClawIcon },
-];
+const AGENTS = [{ name: "Claude Code", Icon: ClaudeIcon }];
 
 export function AgentList() {
   return (

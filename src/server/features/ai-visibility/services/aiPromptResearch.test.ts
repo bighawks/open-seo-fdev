@@ -28,12 +28,12 @@ vi.mock("ai", () => ({
   generateText,
   Output: { object: (value: unknown) => value },
 }));
-vi.mock("@/server/lib/openrouter", () => ({
+vi.mock("@/server/lib/claude", () => ({
   buildChatAgentModel: vi.fn(),
-  requireOpenRouterAccess: async () => ({ apiKey: "key" }),
+  requireClaudeAccess: async () => ({ apiKey: "key" }),
 }));
 vi.mock("@/server/lib/chatAgent", () => ({
-  requireOpenRouterCostUsd: () => 0.003,
+  requireClaudeCostUsd: () => 0.003,
 }));
 vi.mock("@/server/lib/runtime-env", () => ({
   getRequiredEnvValue: async () => "key",
@@ -139,7 +139,7 @@ describe("researchAiPrompts", () => {
     ]);
     expect(billResearchSpend).toHaveBeenCalledWith(
       expect.objectContaining({ projectId: "project" }),
-      [expect.objectContaining({ provider: "openrouter", costUsd: 0.003 })],
+      [expect.objectContaining({ provider: "anthropic", costUsd: 0.003 })],
     );
   });
 

@@ -49,7 +49,7 @@ function BetaNotice() {
       </div>
       <p className="mt-1.5 text-xs text-muted-foreground">
         For more powerful AI workflows, use the OpenSEO MCP with your own agent
-        like Claude Code or Hermes.
+        like Claude Code.
       </p>
       <Link
         to="/ai"

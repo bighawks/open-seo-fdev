@@ -39,7 +39,7 @@ declare namespace Cloudflare {
     // AUTH_MODE=everyapp: OpenSEO behind an Every App gateway. The deploy
     // (`everyapp deploy`) sets the identity keys, the app id the tokens
     // must name, and the binding through which the gateway calls DataForSEO
-    // and OpenRouter with keys only it holds. `everyapp dev` sets the dev
+    // and Anthropic with keys only it holds. `everyapp dev` sets the dev
     // keys; EVERYAPP_DEV accepts them, in local dev only.
     EVERYAPP_APP_ID?: string;
     EVERYAPP_IDENTITY_PUBLIC_KEYS?: string;
@@ -125,12 +125,10 @@ declare namespace Cloudflare {
       }
     >;
 
-    // OpenRouter API key for the SAM in-app chat agent.
-    OPENROUTER_API_KEY?: string;
-    // Optional base URL to use another OpenRouter-compatible provider.
-    OPENROUTER_BASE_URL?: string;
-    // Optional OpenRouter model slug override (defaults in openrouter.ts).
-    OPENROUTER_MODEL?: string;
+    // Anthropic API key for SAM, prompt suggestions and website research.
+    ANTHROPIC_API_KEY?: string;
+    // Optional Claude model override (default in src/server/lib/claude.ts).
+    ANTHROPIC_MODEL?: string;
   }
 }
 

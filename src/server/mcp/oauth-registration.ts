@@ -1,8 +1,6 @@
 import { z } from "zod";
 
 const PUBLIC_CLIENT_AUTH_METHOD = "none";
-const CONFIDENTIAL_CLIENT_AUTH_METHOD = "client_secret_post";
-const PERPLEXITY_CALLBACK = "https://www.perplexity.ai/api/mcp/oauth/callback";
 const MAX_CLIENT_REGISTRATION_BODY_BYTES = 1024 * 1024;
 
 // Loose so every field the provider cares about survives the round trip.
@@ -45,15 +43,11 @@ export async function normalizeClientRegistrationRequest(request: Request) {
     return request;
   }
 
-  // Perplexity requires a client secret, so let the provider create and store a
-  // real one. Other MCP clients that omit the method are public clients: some
-  // discard DCR secrets and would otherwise fail their first token refresh.
-  const isPerplexity = parsed.data.redirect_uris?.includes(PERPLEXITY_CALLBACK);
+  // MCP clients that omit the method are public clients: some discard DCR
+  // secrets and would otherwise fail their first token refresh.
   const metadata = {
     ...parsed.data,
-    token_endpoint_auth_method: isPerplexity
-      ? CONFIDENTIAL_CLIENT_AUTH_METHOD
-      : PUBLIC_CLIENT_AUTH_METHOD,
+    token_endpoint_auth_method: PUBLIC_CLIENT_AUTH_METHOD,
   };
 
   const headers = new Headers(request.headers);

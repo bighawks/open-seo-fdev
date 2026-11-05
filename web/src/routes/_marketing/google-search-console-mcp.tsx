@@ -177,7 +177,7 @@ function GoogleSearchConsoleMcpCta() {
       </p>
       <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--color-brand-muted)]">
         No Google Cloud project. Zero credits to read your own data. Works with
-        Claude, Codex, OpenClaw, OpenCode, and Gemini.
+        Claude and other MCP clients.
       </p>
       <div className="mt-5 flex flex-col gap-3 sm:flex-row">
         <a

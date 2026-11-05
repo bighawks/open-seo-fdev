@@ -1,9 +1,9 @@
 /**
  * OpenSEO on an Every App gateway (AUTH_MODE=everyapp). The gateway signs
  * people in and decides who may open OpenSEO, serves its MCP tools on the
- * gateway's one connector, and holds the DataForSEO, Context and OpenRouter
+ * gateway's one connector, and holds the DataForSEO, Context and Anthropic
  * keys, so a deploy needs no OpenSEO settings to open (its own two:
- * CRAWLER_ACCESS_SECRET, which the deploy generates, and OPENROUTER_MODEL,
+ * CRAWLER_ACCESS_SECRET, which the deploy generates, and ANTHROPIC_MODEL,
  * an optional feature, below). See
  * docs/maintainers/every-app.md.
  *
@@ -59,10 +59,10 @@ export default {
   // What the gateway must hold before OpenSEO opens. What it may hold
   // (the feature says what is missing where it is used) is listed in an
   // optional feature too, under `features`. `why` is for whoever sets it.
-  // Through the gateway's AI proxy and its OPENROUTER_API_KEY.
+  // Through the gateway's AI proxy and its ANTHROPIC_API_KEY.
   providers: [
     {
-      id: "openrouter",
+      id: "anthropic",
       why: "SAM, prompt suggestions and website research run on it.",
     },
   ],
@@ -124,14 +124,14 @@ export default {
       ],
       capabilities: ["google-workspace"],
     },
-    // Without it the default in src/server/lib/openrouter.ts is used.
+    // Without it the default in src/server/lib/claude.ts is used.
     model: {
-      name: "OpenRouter model",
-      why: "Picks the OpenRouter model for SAM, prompt suggestions and website research instead of the default (openai/gpt-5.6-luna).",
+      name: "Claude model",
+      why: "Picks the Claude model for SAM, prompt suggestions and website research instead of the default (claude-sonnet-5-5).",
       secrets: [
         {
-          name: "OPENROUTER_MODEL",
-          how: "An OpenRouter model id, e.g. openai/gpt-5.6-luna: https://openrouter.ai/models",
+          name: "ANTHROPIC_MODEL",
+          how: "A Claude model id, e.g. claude-sonnet-5-5: https://platform.claude.com/docs/en/about-claude/models/overview",
         },
       ],
     },

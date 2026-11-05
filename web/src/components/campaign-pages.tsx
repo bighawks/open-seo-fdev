@@ -234,7 +234,7 @@ const AGENCY_FAQ: FaqItem[] = [
   {
     question: "Do I need an AI agent to use OpenSEO?",
     answer:
-      "No. Everything works in the web app. You can also connect Claude, Codex, or another MCP client and let an agent run the research for you.",
+      "No. Everything works in the web app. You can also connect Claude or another MCP client and let an agent run the research for you.",
   },
   {
     question: "Where does the data come from?",
@@ -535,7 +535,7 @@ const AGENT_FAQ: FaqItem[] = [
   {
     question: "Which agents does it work with?",
     answer:
-      "Claude Code, Claude Cowork, Codex, ChatGPT, Cursor, and other clients that support MCP. The setup prompt asks your agent to use its own installation method.",
+      "Claude Code, Claude Cowork, and other clients that support MCP. The setup prompt asks your agent to use its own installation method.",
   },
   {
     question: "What can my agent do with it?",
@@ -567,8 +567,8 @@ export function AgentLandingPage() {
             className="itc-subhead itc-muted"
             style={{ maxWidth: 640, margin: "20px auto 0" }}
           >
-            Live keyword and competitor data for Claude, Codex, or any MCP
-            client. Set up in 2 minutes, for free.
+            Live keyword and competitor data for Claude or any MCP client. Set
+            up in 2 minutes, for free.
           </p>
           <AgentCtas />
           <ProofRow />

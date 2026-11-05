@@ -127,7 +127,7 @@ describe("saveReport", () => {
 
   it("refuses a document that stopped mid-write", async () => {
     await expect(save({ html: "<html><body>half a repo" })).rejects.toThrow(
-      "The HTML has no closing </html>; the model stopped early. On Codex, escape backticks and ${.",
+      "The HTML has no closing </html>; the model stopped early.",
     );
   });
 

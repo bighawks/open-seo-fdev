@@ -3,7 +3,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { PromptExplorerPage } from "@/client/features/ai-search/PromptExplorerPage";
 import { AiResearchSetupGate } from "@/client/features/ai-visibility/AiResearchSetupGate";
 import { aiResearchSetupQueryOptions } from "@/client/features/ai-visibility/shared";
-import { OpenRouterKeyGate } from "@/client/features/ai-visibility/OpenRouterKeyGate";
+import { ClaudeKeyGate } from "@/client/features/ai-visibility/ClaudeKeyGate";
 import { ProjectWebsiteGate } from "@/client/features/projects/ProjectWebsiteGate";
 import { useProjectMarket } from "@/client/features/projects/useProjectMarket";
 import { queryClient } from "@/client/tanstack-db/queryClient";
@@ -50,7 +50,7 @@ function PromptExplorerRoute() {
   return (
     <div className="overflow-auto px-4 py-4 pb-24 md:px-6 md:py-6 md:pb-8">
       <div className="mx-auto max-w-7xl space-y-5" key={projectId}>
-        <OpenRouterKeyGate projectId={projectId}>
+        <ClaudeKeyGate projectId={projectId}>
           <ProjectWebsiteGate projectId={projectId}>
             <AiResearchSetupGate projectId={projectId}>
               <PromptExplorerPage
@@ -74,7 +74,7 @@ function PromptExplorerRoute() {
               />
             </AiResearchSetupGate>
           </ProjectWebsiteGate>
-        </OpenRouterKeyGate>
+        </ClaudeKeyGate>
       </div>
     </div>
   );

@@ -139,8 +139,7 @@ export function ApiKeySettings() {
             Authenticate MCP clients when OAuth doesn't work
           </p>
           <p className="mt-1 text-sm text-muted-foreground">
-            Use this for remote agents like Hermes where the normal login flow
-            doesn't work.
+            Use this for remote agents where the normal login flow doesn't work.
           </p>
           <p className="mt-1 text-sm">
             <a

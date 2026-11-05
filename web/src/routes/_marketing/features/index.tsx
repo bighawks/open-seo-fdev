@@ -51,8 +51,7 @@ function FeaturesIndex() {
                 OpenSEO MCP
               </h3>
               <p className="mt-2 text-sm leading-6 text-[var(--color-brand-muted)]">
-                Connect Claude, Codex, and other agents to OpenSEO research
-                tools.
+                Connect Claude and other agents to OpenSEO research tools.
               </p>
               <p className="mt-4 text-sm font-medium text-neutral-950">
                 Explore MCP <span aria-hidden="true">&rarr;</span>

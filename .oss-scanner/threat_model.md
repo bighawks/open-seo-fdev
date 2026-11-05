@@ -48,7 +48,7 @@ The organization id comes from the signed-in session, never from the client.
 - Google connections: the OAuth grant (stored tokens, property list, disconnect) belongs to the user who authorized it. The project connection built on it is shared with every organization member by design, and queries run under the connecting member's grant (`docs/maintainers/specs/0003-google-search-console-integration.md`). Another member must not read or export the stored tokens, or connect or re-point a project using a Google account they did not authorize.
 - MCP clients: OAuth tokens (24-hour access, 30-day refresh) and `oseo_` API keys act as the user who created them. They carry no role of their own.
 - Self-host operator: fully trusted.
-- DataForSEO, Google, Autumn, OpenRouter and Context (the external page fetcher): treat their responses as untrusted input, but do not treat the services themselves as attackers.
+- DataForSEO, Google, Autumn, Anthropic and Context (the external page fetcher): treat their responses as untrusted input, but do not treat the services themselves as attackers.
 - Crawled websites, SERP results and AI answers: untrusted, and may carry prompt injection.
 
 ## What to look at first
@@ -62,11 +62,11 @@ The organization id comes from the signed-in session, never from the client.
    - `src/server/mcp/api-key-auth.ts`
    - `src/server/mcp/transport.ts`: checks membership on every request
    - `src/server/mcp/project-auth.ts`: `withMcpProjectAuth`, used by every project tool
-3. Billing (hosted). Can someone spend DataForSEO or OpenRouter money they did not pay for?
+3. Billing (hosted). Can someone spend DataForSEO or Anthropic money they did not pay for?
    Look for a provider call on none of the metered paths below, or a path entered without its credit check.
    - `createDataforseoClient` (`src/server/lib/dataforseo/client.ts`) reserves credits, makes the call, then charges the actual cost. AI-visibility LLM answers use this path too.
    - Admitted research: research jobs that check once for a positive balance, make raw provider calls, then charge through `billResearchSpend` (`src/server/billing/researchSpend.ts`). The balance may go negative once. Entry points: `src/server/features/projects/services/websiteResearch.ts` (called from `ProjectWebsiteService.ts`) and the AI-visibility research services.
-   - SAM chat (`src/server/features/sam/SamChatAgent.ts`): each turn first checks that the organization has credits (`checkUsageCreditsDepleted`). The OpenRouter cost is charged after the fact, in chunks, through `trackUsageCreditSpend`. Look for spend before the check, or an error or shutdown path that skips the charge.
+   - SAM chat (`src/server/features/sam/SamChatAgent.ts`): each turn first checks that the organization has credits (`checkUsageCreditsDepleted`). The Anthropic cost is charged after the fact, in chunks, through `trackUsageCreditSpend`. Look for spend before the check, or an error or shutdown path that skips the charge.
 
    Other billing code:
    - Checkout accepts only fixed plan ids (`src/server/billing/checkout.ts`).
@@ -195,7 +195,7 @@ A report without a working reproduction is capped at Medium. A dependency CVE ne
 
 - a user in organization A reads or changes a specific resource in organization B, by any path (including MCP and SAM)
 - an MCP token or API key that still works after its user leaves the organization, or outside the `mcp` scope
-- DataForSEO or OpenRouter spend nobody paid for, such as:
+- DataForSEO or Anthropic spend nobody paid for, such as:
   - a provider call on no metered path
   - a skipped credit check
   - a way around the free-tool budget

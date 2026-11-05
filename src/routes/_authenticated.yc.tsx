@@ -29,7 +29,7 @@ import { SUPPORT_EMAIL } from "@/client/lib/support";
 
 const PLAN_FEATURES = [
   "Keyword research, backlinks, rank tracking, and site audits",
-  "MCP server and agent skills for Claude, Cursor, and ChatGPT",
+  "MCP server and agent skills for Claude",
   "Google Search Console Integration",
   monthlyCreditsFeature(YC_PLAN_OFFER),
 ];

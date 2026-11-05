@@ -28,7 +28,7 @@ export async function markOnboardingMilestone(
   milestone: OnboardingMilestone,
   // Set alongside the milestone for its emails (see markMcpConnected).
   properties: {
-    agentProvider?: "claude" | "chatgpt";
+    agentProvider?: "claude";
     mcpToolCalled?: true;
   } = {},
 ) {

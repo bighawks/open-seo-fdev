@@ -174,7 +174,7 @@ export const featurePages = {
         body: "Google Keyword Planner is the free option most guides point to, and it sits inside Google Ads. OpenSEO's free keyword generator is the quick version of this tool: one topic in, up to 20 ideas out, with volume and difficulty and no account. The full tool returns up to 500 ideas per search and adds CPC, search intent and the live results page for each keyword. Full metrics cover 94 countries. Elsewhere the data comes from Google Ads, which has volume and CPC but no difficulty or intent.",
       },
       {
-        title: "Keyword research with ChatGPT or Claude, using real numbers",
+        title: "Keyword research with Claude, using real numbers",
         body: "Ask a chat assistant for search volumes and it will guess. Connect OpenSEO over MCP and the assistant pulls keyword ideas and metrics from the same data this page uses. The keyword research skill gives it an order of work: expand a seed, check who ranks, then save the keepers to your list. You keep the conversation, and every number can be checked.",
       },
     ],

@@ -88,7 +88,7 @@ async function saveReport(params: SaveReportParams): Promise<{
   if (!trimmed.includes("<html") || !trimmed.endsWith("</html>")) {
     throw new AppError(
       "VALIDATION_ERROR",
-      "The HTML has no closing </html>; the model stopped early. On Codex, escape backticks and ${.",
+      "The HTML has no closing </html>; the model stopped early.",
     );
   }
 

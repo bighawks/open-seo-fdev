@@ -14,7 +14,7 @@ vi.mock("@/server/lib/posthog", () => ({
 const step = (overrides: Record<string, unknown> = {}) =>
   // oxlint-disable-next-line typescript/no-unsafe-type-assertion -- only the fields recordStep reads
   ({
-    response: { modelId: "openai/gpt-5.6-luna" },
+    response: { modelId: "claude-sonnet-5-5" },
     usage: {
       inputTokens: 1000,
       outputTokens: 200,
@@ -43,7 +43,7 @@ describe("SamTurnStats", () => {
     expect(stats.recordStep(step(), 0.01)).toMatchObject({
       $ai_trace_id: stats.turnId,
       $ai_parent_id: stats.turnId,
-      $ai_model: "openai/gpt-5.6-luna",
+      $ai_model: "claude-sonnet-5-5",
     });
     stats.recordStep(step({ toolCalls: [], finishReason: "stop" }), 0.02);
     stats.recordSpend(0.03);
@@ -56,7 +56,7 @@ describe("SamTurnStats", () => {
     expect(stats.properties("completed")).toMatchObject({
       turn_id: stats.turnId,
       status: "completed",
-      model: "openai/gpt-5.6-luna",
+      model: "claude-sonnet-5-5",
       steps: 2,
       input_tokens: 2000,
       output_tokens: 400,

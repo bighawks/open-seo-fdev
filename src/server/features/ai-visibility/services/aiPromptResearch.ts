@@ -10,7 +10,7 @@ import {
 import { assertPaidAiSearchPlan } from "@/server/features/ai-search/services/access";
 import { ProjectContextRepository } from "@/server/features/project-context/repositories/ProjectContextRepository";
 import { ProjectRepository } from "@/server/features/projects/repositories/ProjectRepository";
-import { requireOpenRouterCostUsd } from "@/server/lib/chatAgent";
+import { requireClaudeCostUsd } from "@/server/lib/chatAgent";
 import {
   CHATGPT_LANGUAGE_CODE,
   CHATGPT_LOCATION_CODE,
@@ -19,9 +19,9 @@ import {
 import { AppError } from "@/server/lib/errors";
 import {
   buildChatAgentModel,
-  requireOpenRouterAccess,
-  type OpenRouterAccess,
-} from "@/server/lib/openrouter";
+  requireClaudeAccess,
+  type ClaudeAccess,
+} from "@/server/lib/claude";
 import { buildCacheKey, getCached, setCached } from "@/server/lib/r2-cache";
 import {
   getOptionalEnvValue,
@@ -100,7 +100,7 @@ export async function researchAiPrompts(
       "INSUFFICIENT_CREDITS",
       "You need usage credits to research prompts.",
     );
-  const openRouter = await requireOpenRouterAccess();
+  const claude = await requireClaudeAccess();
   const state = await getTracker({ projectId: input.projectId });
   const keyword = normalizeAiSuggestion(input.keyword);
   // DataForSEO has ChatGPT prompt data only in US English.
@@ -124,7 +124,7 @@ export async function researchAiPrompts(
       projectId: input.projectId,
       keyword,
       prompts: loaded.prompts,
-      openRouter,
+      claude,
     },
     customer,
   );
@@ -226,7 +226,7 @@ async function relevantQuestions(
     projectId: string;
     keyword: string;
     prompts: CachedPrompt[];
-    openRouter: OpenRouterAccess;
+    claude: ClaudeAccess;
   },
   customer: BillingCustomerContext,
 ): Promise<Set<string>> {
@@ -261,8 +261,8 @@ async function relevantQuestions(
 
   const result = await generateText({
     model: buildChatAgentModel(
-      input.openRouter,
-      await getOptionalEnvValue("OPENROUTER_MODEL"),
+      input.claude,
+      await getOptionalEnvValue("ANTHROPIC_MODEL"),
       "low",
     ),
     output: Output.object({ schema: relevanceOutputSchema }),
@@ -273,10 +273,10 @@ async function relevantQuestions(
     prompt,
     // Admitted above, so settle the actual cost even if credits ran out since.
     onStepFinish: async (step) => {
-      const costUsd = await requireOpenRouterCostUsd(step.providerMetadata);
+      const costUsd = await requireClaudeCostUsd(step);
       await billResearchSpend({ ...customer, projectId: input.projectId }, [
         {
-          provider: "openrouter",
+          provider: "anthropic",
           creditFeature: "agent",
           operation: "ai_prompt_research_relevance",
           costUsd,

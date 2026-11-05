@@ -104,7 +104,7 @@ Many AI-native SEO tools strive to automate SEO as a job function. This is hype.
 
 OpenSEO aims to be the best way to collaborate with your AI agent on SEO tasks. OpenSEO was created after AI agents became powerful. The product is not bogged down by features and workflows that only make sense in a pre-AI world.
 
-Right now, this means OpenSEO has an [MCP server](/docs/mcp) which you can use with any other AI product like Claude, Codex, or OpenClaw. For example, you can ask your agent to do keyword research. But instead of blindly trusting its judgment, you can ask it for a link to view the data in OpenSEO.
+Right now, this means OpenSEO has an [MCP server](/docs/mcp) which you can use with Claude or another MCP client. For example, you can ask your agent to do keyword research. But instead of blindly trusting its judgment, you can ask it for a link to view the data in OpenSEO.
 
 In the future, this collaboration will get even more powerful. You will be able to ask your agent to create a custom dashboard for your business or client with the specific data that you value. Or, you will be able to create bespoke, reusable workflows for routine tasks.
 

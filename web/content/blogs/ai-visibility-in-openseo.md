@@ -56,7 +56,7 @@ AI answers vary from run to run. Ask the same question twice and you can get two
 
 Each tracked answer costs $0.002. Twenty prompts checked on ChatGPT and Gemini is 40 answers, or $0.08 per check. Weekly, that's about $0.32 a month. Daily, about $2.40. Either fits inside the $10 plan's included credits with plenty left for keyword research, rank tracking, and audits.
 
-Setup research and generated prompt suggestions use a small amount of credits. On hosted OpenSEO, Prompt Research and Prompt Explorer need the paid plan; Prompt Tracking only needs credits. If you self-host, you pay [DataForSEO](https://dataforseo.com) and OpenRouter directly at their rates. The full breakdown is on the [pricing page](/pricing).
+Setup research and generated prompt suggestions use a small amount of credits. On hosted OpenSEO, Prompt Research and Prompt Explorer need the paid plan; Prompt Tracking only needs credits. If you self-host, you pay [DataForSEO](https://dataforseo.com) and Anthropic directly at their rates. The full breakdown is on the [pricing page](/pricing).
 
 ## Where the answers come from
 
@@ -64,7 +64,7 @@ Tracking collects answers from the consumer versions of ChatGPT and Gemini, the 
 
 ## Use it from your AI agent
 
-Everything above is also available through [OpenSEO MCP](/docs/mcp), so Claude, Codex, Cursor, or any other MCP client can research prompts, compare models, set up tracking, and read your results. Reading results costs nothing. Before a paid check or schedule, the agent has to get a cost quote and pass along the spending limit you approved, so it can't start paid tracking without a price attached.
+Everything above is also available through [OpenSEO MCP](/docs/mcp), so Claude or any other MCP client can research prompts, compare models, set up tracking, and read your results. Reading results costs nothing. Before a paid check or schedule, the agent has to get a cost quote and pass along the spending limit you approved, so it can't start paid tracking without a price attached.
 
 We're also shipping two agent skills with the [OpenSEO plugin](/docs/claude-code-plugin):
 

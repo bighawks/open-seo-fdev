@@ -7,7 +7,7 @@ import { isHostedServerAuthMode } from "@/server/lib/runtime-env";
 import type { CreditFeature } from "@/shared/billing-credit-features";
 
 export type ResearchSpend = {
-  provider: "openrouter" | "dataforseo" | "context";
+  provider: "anthropic" | "dataforseo" | "context";
   creditFeature: CreditFeature;
   operation: string;
   costUsd: number;

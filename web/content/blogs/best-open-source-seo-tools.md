@@ -29,7 +29,7 @@ OpenSEO is an open source alternative to [Semrush](/semrush-alternative) and [Ah
 
 It relies on [DataForSEO](https://dataforseo.com), a paid service, which is the gold standard for SEO data with pay-as-you-go pricing. Many features cost money to run, but far less than a legacy SaaS seat, and the [costs are documented](/pricing).
 
-OpenSEO also has an [MCP server](/docs/mcp) and AI skills, so you can use Claude Code, Codex, or OpenClaw to handle tedious SEO work like a first pass of keyword research, then dig into the results in the OpenSEO UI. That is different from pointing an agent at DataForSEO's MCP directly. You can save data to your OpenSEO account through the MCP, like tags for clustering keywords, and you can ask the agent for a link to view its research in OpenSEO instead of trusting whatever it reports back.
+OpenSEO also has an [MCP server](/docs/mcp) and AI skills, so you can use Claude Code to handle tedious SEO work like a first pass of keyword research, then dig into the results in the OpenSEO UI. That is different from pointing an agent at DataForSEO's MCP directly. You can save data to your OpenSEO account through the MCP, like tags for clustering keywords, and you can ask the agent for a link to view its research in OpenSEO instead of trusting whatever it reports back.
 
 ## SerpBear
 

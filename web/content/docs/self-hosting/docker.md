@@ -39,7 +39,7 @@ To add teammates, invite them from Team settings. The app copies an invitation l
 
 Set `BETTER_AUTH_URL` to your public `https://` address and put an HTTPS reverse proxy in front of `127.0.0.1:3001`. To update, pull the new image and restart. The full guide covers both, plus backups, password resets and optional features: [Docker self-hosting guide on GitHub](https://github.com/every-app/open-seo/blob/main/docs/SELF_HOSTING_DOCKER.md).
 
-AI Visibility uses your `DATAFORSEO_API_KEY` and sends tracked questions to DataForSEO. Set `OPENROUTER_API_KEY` for setup research, Prompt Research, and generated prompt suggestions. You pay providers directly; the app shows the collection cost before a check or schedule starts. Background answers and daily, weekly, or monthly tracking run on their own while the containers are up. See the [AI Visibility guide](/docs/ai-visibility).
+AI Visibility uses your `DATAFORSEO_API_KEY` and sends tracked questions to DataForSEO. Set `ANTHROPIC_API_KEY` for setup research, Prompt Research, and generated prompt suggestions. You pay providers directly; the app shows the collection cost before a check or schedule starts. Background answers and daily, weekly, or monthly tracking run on their own while the containers are up. See the [AI Visibility guide](/docs/ai-visibility).
 
 ## Without sign-in (advanced)
 

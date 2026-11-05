@@ -6,6 +6,5 @@ import { safeHostname } from "@/shared/safe-url";
 export function getWebChat(redirectUris: string[]) {
   const hosts = redirectUris.map(safeHostname);
   if (hosts.includes("claude.ai")) return "claude" as const;
-  if (hosts.includes("chatgpt.com")) return "chatgpt" as const;
   return null;
 }

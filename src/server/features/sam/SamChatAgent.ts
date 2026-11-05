@@ -18,10 +18,7 @@ import { z } from "zod";
 import { eq } from "drizzle-orm";
 import { db, withPgClient } from "@/db";
 import { user } from "@/db/schema";
-import {
-  openRouterCostUsd,
-  staticAssistantModel,
-} from "@/server/lib/chatAgent";
+import { claudeCostUsd, staticAssistantModel } from "@/server/lib/chatAgent";
 import { SamSessionRepository } from "@/server/features/sam/SamSessionRepository";
 import { ProjectContextService } from "@/server/features/project-context/services/ProjectContextService";
 import { ProjectRepository } from "@/server/features/projects/repositories/ProjectRepository";
@@ -31,7 +28,7 @@ import {
   SamTelemetry,
   type SamTurnStats,
 } from "@/server/features/sam/samTurnTelemetry";
-import { buildSamChatModel } from "@/server/lib/openrouter";
+import { buildSamChatModel } from "@/server/lib/claude";
 import {
   isHostedServerAuthMode,
   usesBetterAuthServer,
@@ -53,7 +50,7 @@ const PROJECT_CONTEXT_BLOCK = "project_context";
 const PUBLIC_ORIGIN_KEY = "sam-public-origin";
 
 // Batching threshold for metering, not a charge: the user pays the turn's
-// actual OpenRouter cost (times the usual markup) whatever this is set to.
+// actual Claude cost (times the usual markup) whatever this is set to.
 // Spend accumulates step by step and is sent to Autumn once the unbilled
 // total reaches this much, with the remainder flushed when the turn ends —
 // so a $0.50 turn is ~10 Autumn calls rather than one per step, and a turn
@@ -135,11 +132,11 @@ export class SamChatAgent extends Think {
   private samContext: SamContext | null = null;
 
   // Per-turn billing state: beforeTurn arms it (non-null = hosted mode, meter
-  // this turn), onStepFinish accumulates OpenRouter cost and meters it in
+  // this turn), onStepFinish accumulates Claude cost and meters it in
   // chunks as the turn runs, onChatResponse/onChatError flush the remainder.
   // Chunked per step rather than once per turn so a turn the Durable Object
   // memory limit kills mid-way still bills what it spent — the Sep 2026
-  // recovery loop burned ~$160/day of OpenRouter spend that never reached
+  // recovery loop burned ~$160/day of LLM spend that never reached
   // onChatResponse. Deductions run off the inference loop, serialized so they
   // land in order; waitUntil keeps the final flush alive in the background.
   private turnUnbilledUsd = 0;
@@ -189,11 +186,11 @@ export class SamChatAgent extends Think {
   }
 
   getModel() {
-    return this.buildModel("max");
+    return this.buildModel("high");
   }
 
-  private buildModel(reasoningEffort: "max" | "low") {
-    return buildSamChatModel(this.env, reasoningEffort);
+  private buildModel(effort: "high" | "low") {
+    return buildSamChatModel(this.env, effort);
   }
 
   override getSkills() {
@@ -223,13 +220,13 @@ export class SamChatAgent extends Think {
   }
 
   // Compaction summaries run outside the step loop (so outside onStepFinish),
-  // on the same model at low reasoning; their cost joins the turn's total.
+  // on the same model at low effort; their cost joins the turn's total.
   private async summarizeForCompaction(prompt: string): Promise<string> {
     const result = await generateText({
       model: this.buildModel("low"),
       prompt,
     });
-    this.recordSpend(openRouterCostUsd(result.providerMetadata));
+    this.recordSpend(claudeCostUsd(result));
     this.telemetry.compaction();
     return result.text;
   }
@@ -293,7 +290,7 @@ export class SamChatAgent extends Think {
   // back through Think's normal pipeline (rendered and persisted like any
   // assistant message) without calling a provider, so a refusal is free even
   // when users script them. The old version made a real 200-token call, which
-  // MiniMax M3 could spend entirely on reasoning tokens — leaving the user a
+  // a model could spend entirely on reasoning tokens — leaving the user a
   // truncated chain-of-thought and no reply (issue #161).
   private refusalTurn(text: string): TurnConfig {
     return { model: staticAssistantModel(text) };
@@ -376,7 +373,7 @@ export class SamChatAgent extends Think {
         // a full research chain, multi-competitor sweeps), so the step budget
         // is generous; cost is bounded by per-step metering and the model
         // stopping on its own. The per-step token budget is shared by
-        // max-effort reasoning and the visible reply, so it stays well above
+        // reasoning and the visible reply, so it stays well above
         // measured reasoning use (~3k tokens — a tight cap lets reasoning eat
         // the reply, issue #161) but below the 32k that, with 48 steps, let a
         // single turn outgrow the Durable Object memory limit.
@@ -387,7 +384,7 @@ export class SamChatAgent extends Think {
   }
 
   onStepFinish(ctx: StepContext): void {
-    const costUsd = openRouterCostUsd(ctx.providerMetadata);
+    const costUsd = claudeCostUsd(ctx);
     this.recordSpend(costUsd);
     this.telemetry.step(ctx, costUsd);
   }
@@ -433,7 +430,7 @@ export class SamChatAgent extends Think {
       creditFeature: "agent",
       costUsd,
       monthlyRemaining: this.turnMonthlyRemaining ?? armedMonthlyRemaining,
-      properties: { provider: "openrouter", turn_id: turn?.turnId },
+      properties: { provider: "anthropic", turn_id: turn?.turnId },
     });
     if (turn) turn.credits += monthlyCredits + topupCredits;
     if (this.turnMonthlyRemaining !== null)
@@ -502,10 +499,10 @@ export class SamChatAgent extends Think {
   // Think's chat recovery re-runs an interrupted turn: after a Durable Object
   // reset it wakes, reads the incident, and calls the model again to continue
   // the partial reply. When the reset was a memory-limit kill (a long,
-  // tool-heavy turn under GPT-5.6 Luna at max reasoning), every re-run dies at
+  // tool-heavy turn at high reasoning), every re-run dies at
   // the same point, and the bookkeeping that bounds the retry budget dies with
   // it — one incident was observed at attempt 44 of a max of 10. Each attempt
-  // is a full OpenRouter call that never reaches onChatResponse, so none of it
+  // is a full model call that never reaches onChatResponse, so none of it
   // is metered: in early Sep 2026 these loops were ~95% of the key's spend.
   // Keep the durable bookkeeping (partial reply persisted) but never re-run
   // inference automatically; the user resends instead. Skipped recoveries

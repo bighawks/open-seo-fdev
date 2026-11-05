@@ -9,7 +9,7 @@ describe("normalizeClientRegistrationRequest", () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          redirect_uris: ["https://www.perplexity.ai/api/mcp/oauth/callback"],
+          redirect_uris: ["https://client.example.com/oauth/callback"],
           token_endpoint_auth_method: "client_secret_post",
         }),
       },

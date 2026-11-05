@@ -13,27 +13,16 @@ Set up OpenSEO in this agent. Do what you can; guide me through anything that ne
 - Check for an existing OpenSEO connection. Preserve other integrations and avoid duplicates.
 - Check for OpenSEO skills separately. A connection without skills is incomplete.
 
-## 2. If this is ChatGPT
-
-If I pasted this into a regular ChatGPT conversation (web or desktop app, not Codex), you cannot install OpenSEO from here. Don't run commands or edit files. Instead, give me these steps and stop:
-
-1. Open the [OpenSEO plugin for ChatGPT](https://chatgpt.com/plugins/plugin_asdk_app_6abddd2c7e4c819191f1398c4bd8e9b3) and select **Install plugin**.
-2. Sign in to OpenSEO and approve the connection.
-3. Start a new chat, select OpenSEO from the **+** menu, and send: "Use OpenSEO to check my connection and list my projects."
-
-The plugin connects only to hosted OpenSEO. If `https://app.openseo.so/mcp` is not on openseo.so (self-hosted), or the plugin isn't available for my account, point me to the custom connection steps in the [ChatGPT setup guide](https://openseo.so/docs/chatgpt#custom-connection) with that server URL. ChatGPT needs a publicly reachable HTTPS URL. If I'm in Codex, continue below.
-
-## 3. Install the plugin first
+## 2. Install the plugin first
 
 The official plugin bundles MCP + SEO skills, with OpenSEO namespacing and shared updates.
 
-- **Codex:** follow the [plugin guide](https://openseo.so/docs/codex-plugin).
 - **Claude Code:** follow the [plugin guide](https://openseo.so/docs/claude-code-plugin).
 - **Claude Cowork or the Claude desktop app:** you cannot install plugins from this chat, so don't run commands. Tell me to open **Customize** (in Cowork, the **Cowork** tab first) → **Plugins** → **+** or **Add** → **Add marketplace** → **Add from a repository**, enter `https://github.com/every-app/open-seo`, and install **OpenSEO**. Then I start a new task and type `/` to check that OpenSEO skills appear. If I already have a custom OpenSEO connector, have me remove it once the plugin signs in. Plugins need a paid plan. The plugin connects only to hosted OpenSEO, so skip it if `https://app.openseo.so/mcp` is not on openseo.so (self-hosted) or I'm on Free. Instead, have me add that endpoint under **Customize → Connectors** → **Add custom connector** and upload the [public skills](https://openseo.so/docs/skills/setup) in **Customize → Skills**. Then continue at step 5.
 - **Other agents:** verify plugin compatibility in their current documentation.
 - Check the installed client's help before running commands.
 
-## 4. Fall back to MCP + skills
+## 3. Fall back to MCP + skills
 
 If the plugin is unsupported:
 
@@ -44,7 +33,7 @@ If the plugin is unsupported:
 
 For self-hosted OpenSEO, use its endpoint directly; the official plugin targets the hosted service.
 
-## 5. Sign in
+## 4. Sign in
 
 - **Hosted OpenSEO:** Prefer OAuth and let me approve login in my browser. If this client cannot use OAuth, send me to `https://app.openseo.so/settings` → API keys. Have me enter the key in the client's secret settings or environment, never chat or a repository.
 - **Self-hosted OpenSEO:** Follow the deployment's authentication instructions. A local server configured without authentication needs no OAuth or OpenSEO API key. For Cloudflare Access deployments, follow the self-hosting guide to configure Managed OAuth for the MCP client.

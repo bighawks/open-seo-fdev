@@ -81,9 +81,9 @@ function ToolsPage() {
             </h2>
           </div>
           <p className="mt-2 text-sm leading-6 text-[var(--color-brand-muted)]">
-            Point Claude, Codex, or any MCP client at your own Search Console
-            data. Connect your Google account to get started; no Google Cloud
-            project is needed.
+            Point Claude or any MCP client at your own Search Console data.
+            Connect your Google account to get started; no Google Cloud project
+            is needed.
           </p>
         </a>
       </section>

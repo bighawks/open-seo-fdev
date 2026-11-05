@@ -407,7 +407,7 @@ function FeatureDropdown() {
                     OpenSEO MCP
                   </span>
                   <span className="mt-0.5 block text-xs leading-relaxed text-neutral-600">
-                    Connect Claude, Codex, and agents.
+                    Connect Claude and agents.
                   </span>
                 </a>
                 <a

@@ -5,13 +5,13 @@ author: "Ben Senescu"
 date: "2026-10-15"
 ---
 
-If you ask [Claude Code](/blogs/how-to-prompt-claude-code-for-seo) or Codex to "analyze my site for SEO and fix things" every week, it will eventually start undoing its own work. Every run starts from zero. It doesn't know which pages it edited last week, whether those edits helped, or that the post it wants to write competes with a page you already have.
+If you ask [Claude Code](/blogs/how-to-prompt-claude-code-for-seo) to "analyze my site for SEO and fix things" every week, it will eventually start undoing its own work. Every run starts from zero. It doesn't know which pages it edited last week, whether those edits helped, or that the post it wants to write competes with a page you already have.
 
 [Moazzan Ishfaq](https://moazzanishfaq.com) ran into all of this as CTO of [Importivity](https://importivity.com), an Austin company that helps US businesses move their supply chains to China, Vietnam and Mexico. He [forked OpenSEO and built an SEO engine on top of it](/blogs/replace-seo-agency-with-ai), and grew the site's organic clicks about 7x in six months. Along the way, Importivity fired the SEO agency it had been paying $3,000 a month.
 
 His engine runs on five rules. You can set up most of them today without forking anything, using the change-log format and the two prompts below.
 
-The prompts assume [OpenSEO MCP](/docs/mcp) is connected, so your agent can read Search Console and save reports. The [Claude Code](/docs/claude-code-plugin) and [Codex](/docs/codex-plugin) plugins set it up with all 12 skills.
+The prompts assume [OpenSEO MCP](/docs/mcp) is connected, so your agent can read Search Console and save reports. The [Claude Code](/docs/claude-code-plugin) plugins set it up with all 12 skills.
 
 ## Why does my SEO agent keep redoing its own work?
 
@@ -78,13 +78,13 @@ OpenSEO's ranked keywords tool gives a second view from DataForSEO's data, and t
 
 Moazzan's engine pulls the latest news on a topic before it writes. For a post about tariffs or duties, "we pull the latest news about it and feed them in."
 
-OpenSEO doesn't write posts, so this rule lives in your project context with the others. Claude Code and Codex can search the web themselves, and the rule tells them to cite what they find. You still review the draft; [Human in the loop content](/library/ai-agent-seo/human-in-the-loop-content) covers what that review should catch.
+OpenSEO doesn't write posts, so this rule lives in your project context with the others. Claude Code can search the web itself, and the rule tells it to cite what they find. You still review the draft; [Human in the loop content](/library/ai-agent-seo/human-in-the-loop-content) covers what that review should catch.
 
 ## How to set this up in OpenSEO
 
 Connect Search Console first. On hosted OpenSEO, click Connect Search Console and pick your property ([how the Search Console MCP works](/google-search-console-mcp)).
 
-Then paste this into Claude Code or Codex once:
+Then paste this into Claude Code once:
 
 ```
 Add a custom section called "Change rules" to this project's OpenSEO context with this text:

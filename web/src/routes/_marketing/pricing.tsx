@@ -130,7 +130,7 @@ const PLANS: Plan[] = [
     features: [
       "Keyword research, backlinks, rank tracking, and site audits",
       "AI visibility, prompt research, and tracking",
-      "Works inside Claude, Cursor, and ChatGPT",
+      "Works inside Claude",
       "Free Google Search Console data",
       PAY_AS_YOU_GO,
     ],

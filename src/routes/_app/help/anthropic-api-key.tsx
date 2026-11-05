@@ -5,23 +5,23 @@ import {
   SecretHelpPage,
 } from "@/client/features/help/SecretHelpPage";
 
-const OPENROUTER_KEYS_URL = "https://openrouter.ai/settings/keys";
+const ANTHROPIC_KEYS_URL = "https://platform.claude.com/settings/keys";
 
-export const Route = createFileRoute("/_app/help/openrouter-api-key")({
-  component: OpenrouterApiKeyHelpPage,
+export const Route = createFileRoute("/_app/help/anthropic-api-key")({
+  component: AnthropicApiKeyHelpPage,
 });
 
-function OpenrouterApiKeyHelpPage() {
+function AnthropicApiKeyHelpPage() {
   const accountStep = (
     <li>
       Create an account at{" "}
       <a
         className={helpLinkClassName}
-        href="https://openrouter.ai"
+        href="https://platform.claude.com"
         target="_blank"
         rel="noreferrer"
       >
-        openrouter.ai
+        platform.claude.com
       </a>{" "}
       and add credits (pay-as-you-go, like DataForSEO).
     </li>
@@ -31,33 +31,33 @@ function OpenrouterApiKeyHelpPage() {
       Go to{" "}
       <a
         className={helpLinkClassName}
-        href={OPENROUTER_KEYS_URL}
+        href={ANTHROPIC_KEYS_URL}
         target="_blank"
         rel="noreferrer"
       >
-        OpenRouter API Keys
+        Claude Console API Keys
       </a>{" "}
-      and click "Create API Key".
+      and click "Create Key".
     </li>
   );
   return (
     <SecretHelpPage
-      title="Set up your OpenRouter API key"
+      title="Set up your Anthropic API key"
       intro={
         <>
-          OpenSEO needs the <code>OPENROUTER_API_KEY</code> secret before AI
+          OpenSEO needs the <code>ANTHROPIC_API_KEY</code> secret before AI
           features like SAM, the in-app SEO agent, can run. It is optional —
           everything else in OpenSEO works without it.
         </>
       }
-      everyAppIntro="SAM, prompt suggestions and website research run on OpenRouter. On Every App the gateway holds the key once, for every app."
-      secretName="OPENROUTER_API_KEY"
+      everyAppIntro="SAM, prompt suggestions and website research run on Claude. On Every App the gateway holds the key once, for every app."
+      secretName="ANTHROPIC_API_KEY"
       steps={
         <>
           {accountStep}
           {keyStep}
           <li>
-            Save the key as the <code>OPENROUTER_API_KEY</code> secret in your
+            Save the key as the <code>ANTHROPIC_API_KEY</code> secret in your
             environment:
             <ul className="mt-2 list-disc space-y-1 pl-5">
               <li>
@@ -79,13 +79,13 @@ function OpenrouterApiKeyHelpPage() {
           <li>
             An owner or admin runs this from the Every App checkout and pastes
             the key:
-            <CommandBlock command="pnpm everyapp secret set OPENROUTER_API_KEY" />
+            <CommandBlock command="pnpm everyapp secret set ANTHROPIC_API_KEY" />
           </li>
           <li>Reload OpenSEO.</li>
         </>
       }
-      dashboardPasteStep="Paste your OpenRouter API key and save."
-      terminalPromptHint="Paste your OpenRouter API key when prompted."
+      dashboardPasteStep="Paste your Anthropic API key and save."
+      terminalPromptHint="Paste your Anthropic API key when prompted."
     />
   );
 }

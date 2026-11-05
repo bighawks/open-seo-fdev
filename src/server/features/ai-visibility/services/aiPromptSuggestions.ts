@@ -8,11 +8,8 @@ import {
   type BillingCustomerContext,
 } from "@/server/billing/subscription";
 import { billResearchSpend } from "@/server/billing/researchSpend";
-import { requireOpenRouterCostUsd } from "@/server/lib/chatAgent";
-import {
-  buildChatAgentModel,
-  requireOpenRouterAccess,
-} from "@/server/lib/openrouter";
+import { requireClaudeCostUsd } from "@/server/lib/chatAgent";
+import { buildChatAgentModel, requireClaudeAccess } from "@/server/lib/claude";
 import {
   getOptionalEnvValue,
   isHostedServerAuthMode,
@@ -75,8 +72,8 @@ export async function generateAiPrompts(
     );
   const result = await generateText({
     model: buildChatAgentModel(
-      await requireOpenRouterAccess(),
-      await getOptionalEnvValue("OPENROUTER_MODEL"),
+      await requireClaudeAccess(),
+      await getOptionalEnvValue("ANTHROPIC_MODEL"),
       "low",
     ),
     output: Output.object({ schema: generatedAiTopicSchema }),
@@ -102,10 +99,10 @@ export async function generateAiPrompts(
     }),
     // Admitted above, so settle the actual cost even if credits ran out since.
     onStepFinish: async (step) => {
-      const costUsd = await requireOpenRouterCostUsd(step.providerMetadata);
+      const costUsd = await requireClaudeCostUsd(step);
       await billResearchSpend({ ...customer, projectId: input.projectId }, [
         {
-          provider: "openrouter",
+          provider: "anthropic",
           creditFeature: "agent",
           operation: "ai_prompt_generation",
           costUsd,

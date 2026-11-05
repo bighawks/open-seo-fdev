@@ -1,6 +1,6 @@
 ---
 title: "Google Search Console MCP Server: No Google Cloud Setup"
-description: Connect Google Search Console to Claude, Cursor, or any MCP client — no Google Cloud project needed. Query clicks, impressions, CTR, position, and indexing.
+description: Connect Google Search Console to Claude or any MCP client — no Google Cloud project needed. Query clicks, impressions, CTR, position, and indexing.
 ---
 
 Most Google Search Console (GSC) MCP servers are open source, but they take a lot of effort to set up. You need to create a Google Cloud project, enable an API, build an OAuth client, download a `credentials.json`, then keep a local server running. OpenSEO handles the Google connection for you. You sign up, connect your property, and start asking.
@@ -29,28 +29,7 @@ claude mcp add --transport http --scope user openseo https://app.openseo.so/mcp
 2. Click **Add** (or **+**), then choose **Add custom connector**.
 3. Paste `https://app.openseo.so/mcp`.
 
-### Cursor
-
-1. Open Cursor Settings → Tools & Integrations → MCP Tools.
-2. Click **New MCP Server** (this opens `mcp.json`) and add:
-
-```json
-{
-  "mcpServers": {
-    "openseo": {
-      "url": "https://app.openseo.so/mcp"
-    }
-  }
-}
-```
-
-### Codex CLI
-
-```bash
-codex mcp add openseo --url https://app.openseo.so/mcp
-```
-
-For ChatGPT web or desktop, follow the [ChatGPT setup steps and plan requirements](/docs/chatgpt). For other remote MCP clients, add `https://app.openseo.so/mcp` and sign in. Full setup and troubleshooting live in the [MCP docs](/docs/mcp).
+For other remote MCP clients, add `https://app.openseo.so/mcp` and sign in. Full setup and troubleshooting live in the [MCP docs](/docs/mcp).
 
 ### The DIY way (every other GSC MCP)
 
@@ -103,7 +82,7 @@ Yes. OpenSEO requests read-only access (`webmasters.readonly`). Your agent can r
 
 ### Which AI clients work?
 
-Any MCP client, including Claude Code, Claude Desktop, Cursor, Codex, and OpenClaw. Add the OpenSEO MCP endpoint and sign in.
+Any MCP client, including Claude Code and Claude Desktop. Add the OpenSEO MCP endpoint and sign in.
 
 ### How fresh is the data?
 

@@ -119,7 +119,7 @@ export function GscReEngagementModal({
           </DialogTitle>
           <DialogDescription>
             Bring your real clicks, impressions, and rankings into OpenSEO and
-            query them from Claude or Codex over MCP. It never uses credits.
+            query them from Claude over MCP. It never uses credits.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>

@@ -68,7 +68,7 @@ You don't need a fork to do most of this. OpenSEO doesn't natively edit your sit
 - Ask for two opportunity lists: keywords you rank for in positions 11 to 50, and keywords competitors rank for that you don't. Keep your competitors in [project context](/docs/skills/seo-project-setup) so every session uses the same list.
 - Have your agent save a [report](/docs/skills/seo-report) every time it edits a page, with the page's numbers before the edit, and read those reports before the next run. [Stop your SEO agent from undoing its own work](/blogs/seo-agent-change-log) has the prompts.
 
-To try it, connect [OpenSEO MCP](/docs/mcp) to Claude Code or Codex. Hosted OpenSEO is $10 a month with $10 of usage included ([pricing](/pricing)).
+To try it, connect [OpenSEO MCP](/docs/mcp) to Claude Code. Hosted OpenSEO is $10 a month with $10 of usage included ([pricing](/pricing)).
 
 ## Takeaways
 

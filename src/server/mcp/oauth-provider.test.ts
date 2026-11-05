@@ -186,26 +186,6 @@ describe("OpenSEO OAuth provider configuration", () => {
     });
   });
 
-  it("lets the provider issue Perplexity a real client secret", async () => {
-    const provider = createOpenSeoOAuthProvider(() => new Response("app"));
-
-    await dispatch(
-      provider,
-      new Request("https://app.openseo.so/api/auth/oauth2/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          client_name: "Perplexity",
-          redirect_uris: ["https://www.perplexity.ai/api/mcp/oauth/callback"],
-        }),
-      }),
-    );
-
-    await expect(mocks.requests[0]?.json()).resolves.toMatchObject({
-      token_endpoint_auth_method: "client_secret_post",
-    });
-  });
-
   it("includes the authorization-server issuer when consent is denied", async () => {
     const provider = createOpenSeoOAuthProvider(() => new Response("app"));
     await dispatch(provider, new Request("https://app.openseo.so/health"));

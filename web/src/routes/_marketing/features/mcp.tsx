@@ -3,7 +3,7 @@ import { aiAgentSeoStrategies } from "@/lib/strategy-libraries";
 import { buildPageSeo } from "@/lib/seo";
 
 const mcpDescription =
-  "Give Claude, Cursor, or any MCP client real SEO tools: keyword research, live SERPs, backlinks, rank tracking, and Search Console data via one MCP server.";
+  "Give Claude or any MCP client real SEO tools: keyword research, live SERPs, backlinks, rank tracking, and Search Console data via one MCP server.";
 
 const toolCategories = [
   {
@@ -104,11 +104,11 @@ function McpPage() {
         An SEO MCP server for AI agents
       </h1>
       <p className="mt-4 text-neutral-700 leading-relaxed">
-        OpenSEO is an SEO MCP server that connects Claude, Cursor, Codex, or any
-        MCP client to real data, so your agent can research keywords, inspect
-        live SERPs, compare competitor domains, summarize backlink context, save
-        keyword opportunities, review rank-tracking data, and read first-party
-        Search Console signals.
+        OpenSEO is an SEO MCP server that connects Claude or any MCP client to
+        real data, so your agent can research keywords, inspect live SERPs,
+        compare competitor domains, summarize backlink context, save keyword
+        opportunities, review rank-tracking data, and read first-party Search
+        Console signals.
       </p>
 
       <div className="mt-6 flex flex-col gap-3 sm:flex-row">
@@ -251,9 +251,9 @@ function McpPage() {
           Setup lives in Docs
         </h2>
         <p className="mt-2 text-sm leading-relaxed text-neutral-600">
-          The MCP server URL, Claude setup, Codex setup, and troubleshooting
-          steps are maintained in the docs so this feature page can stay focused
-          on what OpenSEO MCP makes possible.
+          The MCP server URL, Claude setup, and troubleshooting steps are
+          maintained in the docs so this feature page can stay focused on what
+          OpenSEO MCP makes possible.
         </p>
         <div className="mt-4">
           <a

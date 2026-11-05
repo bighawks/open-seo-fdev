@@ -38,12 +38,12 @@ vi.mock("@/server/lib/runtime-env", () => ({
   getRequiredEnvValue: vi.fn(),
   getOptionalEnvValue: vi.fn(),
 }));
-vi.mock("@/server/lib/openrouter", () => ({
+vi.mock("@/server/lib/claude", () => ({
   buildChatAgentModel: vi.fn(),
-  requireOpenRouterAccess: vi.fn(async () => ({ apiKey: "test-key" })),
+  requireClaudeAccess: vi.fn(async () => ({ apiKey: "test-key" })),
 }));
 vi.mock("@/server/lib/chatAgent", () => ({
-  requireOpenRouterCostUsd: vi.fn(),
+  requireClaudeCostUsd: vi.fn(),
 }));
 vi.mock("@/server/billing/researchSpend", () => ({
   billResearchSpend: vi.fn(),
