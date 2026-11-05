@@ -1,5 +1,6 @@
 import type { ComponentType, ReactNode } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Link } from "@tanstack/react-router";
 import { cn } from "cn";
 import { Bot, X } from "lucide-react";
 import { CopyButton } from "@/client/components/CopyButton";
@@ -7,13 +8,43 @@ import { Button } from "@/client/components/ui/button";
 import { Card } from "@/client/components/ui/card";
 import { ONE_CLICK_INSTALLS } from "@/client/features/ai-mcp/agentInstalls";
 import { captureClientEvent } from "@/client/lib/posthog";
+import { isHostedClientAuthMode } from "@/lib/auth-mode";
 import { dismissDashboardAgentCard } from "@/serverFunctions/dashboard";
 import { listMcpConnections } from "@/serverFunctions/mcp-connections";
 
 const actionClassName = "h-9 px-3 text-xs sm:text-sm";
 
-// For people who haven't connected an agent.
+// For people who haven't connected an agent. The one-click listing connects to
+// the hosted service, so a self-hosted instance offers its own MCP address.
 export function DashboardAgentCard({ projectId }: { projectId: string }) {
+  if (!isHostedClientAuthMode()) {
+    const mcpUrl = `${window.location.origin}/mcp`;
+    return (
+      <AgentCard
+        projectId={projectId}
+        icons={ONE_CLICK_INSTALLS.map(({ Icon }) => Icon)}
+        title="Use OpenSEO in Claude"
+        description={`Add ${mcpUrl} to Claude as a custom connector, then research keywords and audit your site from there.`}
+      >
+        <CopyButton
+          value={mcpUrl}
+          label="Copy MCP URL"
+          successMessage="MCP URL copied"
+          size="default"
+          className={actionClassName}
+          onCopy={() => captureClientEvent("mcp:setup_url_copy")}
+        />
+        <Button
+          variant="ghost"
+          className={actionClassName}
+          nativeButton={false}
+          render={<Link to="/ai" />}
+        >
+          Setup steps
+        </Button>
+      </AgentCard>
+    );
+  }
   return (
     <AgentCard
       projectId={projectId}

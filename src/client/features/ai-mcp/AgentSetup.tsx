@@ -8,6 +8,7 @@ import { getAgentSetupPrompt } from "./agentSetupPrompt";
 import { captureClientEvent } from "@/client/lib/posthog";
 import { WizardFooter } from "@/client/features/onboarding/WizardFooter";
 import { Button } from "@/client/components/ui/button";
+import { isHostedClientAuthMode } from "@/lib/auth-mode";
 import { getMcpAuthorizedAt } from "@/serverFunctions/onboarding";
 
 /** Last onboarding step. Onboarding finishes when the user clicks Go to
@@ -60,27 +61,35 @@ export function AgentSetup({
           setStartedSetup(true);
           captureClientEvent("onboarding:setup_prompt_copy");
         }}
-        actions={ONE_CLICK_INSTALLS.map(({ agent, name, href, Icon }) => (
-          <Button
-            key={agent}
-            variant="outline"
-            size="lg"
-            className="w-full"
-            nativeButton={false}
-            render={<a href={href} target="_blank" rel="noreferrer" />}
-            onClick={() => {
-              setStartedSetup(true);
-              captureClientEvent("onboarding:add_to_agent_click", { agent });
-            }}
-          >
-            <Icon data-icon="inline-start" />
-            {/* "Add to" drops on narrow screens so both buttons fit one row. */}
-            <span>
-              <span className="max-sm:sr-only">Add to </span>
-              {name}
-            </span>
-          </Button>
-        ))}
+        // The one-click listing connects to the hosted service. The setup prompt
+        // above already carries a self-hosted instance's own address.
+        actions={
+          isHostedClientAuthMode()
+            ? ONE_CLICK_INSTALLS.map(({ agent, name, href, Icon }) => (
+                <Button
+                  key={agent}
+                  variant="outline"
+                  size="lg"
+                  className="w-full"
+                  nativeButton={false}
+                  render={<a href={href} target="_blank" rel="noreferrer" />}
+                  onClick={() => {
+                    setStartedSetup(true);
+                    captureClientEvent("onboarding:add_to_agent_click", {
+                      agent,
+                    });
+                  }}
+                >
+                  <Icon data-icon="inline-start" />
+                  {/* "Add to" drops on narrow screens so both buttons fit one row. */}
+                  <span>
+                    <span className="max-sm:sr-only">Add to </span>
+                    {name}
+                  </span>
+                </Button>
+              ))
+            : null
+        }
       >
         {connected ? (
           <p
