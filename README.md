@@ -51,6 +51,7 @@ In `deploy/standalone/.env`, set:
 | `DATAFORSEO_API_KEY` | Your DataForSEO key                                                     |
 | `ANTHROPIC_API_KEY`  | Your Anthropic key                                                      |
 | `ANTHROPIC_MODEL`    | Optional. The default is `claude-sonnet-5-5`                            |
+| `OPENSEO_IMAGE`      | `openseo-fdev:local`, so the build doesn't reuse upstream's image name  |
 
 Then build and start it:
 

@@ -101,7 +101,7 @@ if (command === "backup") {
     await archive("runtime", "/config", `${root}/config.tar.gz`);
     const manifest = {
       format: 1,
-      celld: "0.5.1",
+      celld: "0.6.3",
       image,
       createdAt: new Date().toISOString(),
       files: {},
@@ -121,7 +121,7 @@ if (command === "backup") {
   }
 } else {
   const manifest = JSON.parse(await readFile(`${root}/manifest.json`, "utf8"));
-  if (manifest.format !== 1 || manifest.celld !== "0.5.1")
+  if (manifest.format !== 1 || !["0.5.1", "0.6.3"].includes(manifest.celld))
     throw new Error("Unsupported backup version");
   for (const file of ["storage.tar.gz", "config.tar.gz"])
     if ((await hash(`${root}/${file}`)) !== manifest.files[file])
