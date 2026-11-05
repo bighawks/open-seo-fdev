@@ -30,7 +30,8 @@ describe("DataForSEO transport", () => {
     expect(new Headers(init?.headers).get("Authorization")).toBe(
       "Basic encoded-credentials",
     );
-    expect(new Headers(init?.headers).get("Accept-Encoding")).toBe("gzip");
+    // celld 0.6 doesn't decode a gzip body it was asked for (denoland/celld#238).
+    expect(new Headers(init?.headers).get("Accept-Encoding")).toBeNull();
   });
 
   // An unverified account answers with HTTP 403 (status_code 40104). Left as
