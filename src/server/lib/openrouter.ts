@@ -1,3 +1,4 @@
+import { createAnthropic } from "@ai-sdk/anthropic";
 import { ConfigurationError, createGatewayFetch } from "@every-app/sdk/server";
 import {
   createOpenRouter,
@@ -17,7 +18,14 @@ import { getEnvValueSync, getWorkersEnv } from "@/server/lib/runtime-env";
  */
 export type OpenRouterAccess =
   | { apiKey: string; baseURL?: string }
-  | { gatewayFetch: typeof fetch };
+  | { gatewayFetch: typeof fetch }
+  | { anthropicApiKey: string; anthropicModel: string };
+
+// Fork: direct Anthropic access. ANTHROPIC_API_KEY takes precedence over
+// OPENROUTER_API_KEY; ANTHROPIC_MODEL picks the Claude model.
+const DEFAULT_ANTHROPIC_MODEL = "claude-sonnet-5-5";
+// Extended-thinking budget used where upstream asks for reasoning "max".
+const ANTHROPIC_THINKING_BUDGET = 8000;
 
 const GATEWAY_BASE_URL =
   "https://every-app-gateway.invalid/api/ai/openrouter/api/v1";
@@ -48,6 +56,14 @@ export function getOpenRouterAccess(env: object): OpenRouterAccess | null {
       if (error instanceof ConfigurationError) return null;
       throw error;
     }
+  }
+  const anthropicApiKey = getEnvValueSync(env, "ANTHROPIC_API_KEY");
+  if (anthropicApiKey) {
+    return {
+      anthropicApiKey,
+      anthropicModel:
+        getEnvValueSync(env, "ANTHROPIC_MODEL") || DEFAULT_ANTHROPIC_MODEL,
+    };
   }
   const apiKey = getEnvValueSync(env, "OPENROUTER_API_KEY");
   // Any OpenAI-compatible endpoint that speaks OpenRouter's chat API; unset
@@ -142,6 +158,9 @@ export function buildChatAgentModel(
   modelId?: string,
   reasoningEffort: "max" | "low" = "max",
 ): LanguageModelV3 {
+  if ("anthropicApiKey" in access) {
+    return buildAnthropicModel(access, reasoningEffort);
+  }
   const model = modelId ?? DEFAULT_CHAT_AGENT_MODEL;
   const openrouter =
     "apiKey" in access
@@ -198,5 +217,39 @@ function openRouterModel(
   return openrouter(model, {
     usage: { include: true },
     extraBody: { reasoning: { effort: reasoningEffort } },
+  });
+}
+
+/**
+ * Fork: the Claude model via Anthropic's own API. OPENROUTER_MODEL is ignored
+ * here (its slugs are OpenRouter's); the model comes from ANTHROPIC_MODEL.
+ * Reasoning "max" turns on extended thinking, "low" leaves it off. No cost is
+ * reported, which self-host tolerates (requireOpenRouterCostUsd returns 0).
+ */
+function buildAnthropicModel(
+  access: { anthropicApiKey: string; anthropicModel: string },
+  reasoningEffort: "max" | "low",
+): LanguageModelV3 {
+  const anthropic = createAnthropic({ apiKey: access.anthropicApiKey });
+  const model = anthropic(access.anthropicModel);
+  if (reasoningEffort === "low") return model;
+  return wrapLanguageModel({
+    model,
+    middleware: {
+      specificationVersion: "v3",
+      transformParams: async ({ params }) => ({
+        ...params,
+        providerOptions: {
+          ...params.providerOptions,
+          anthropic: {
+            ...params.providerOptions?.anthropic,
+            thinking: {
+              type: "enabled",
+              budgetTokens: ANTHROPIC_THINKING_BUDGET,
+            },
+          },
+        },
+      }),
+    },
   });
 }
