@@ -211,6 +211,16 @@ export type DeleteSavedKeywordTagInput = z.infer<
 export type RefreshSavedKeywordMetricsInput = z.infer<
   typeof refreshSavedKeywordMetricsSchema
 >;
+export const keywordQuestionsSchema = z.object({
+  projectId: z.string().min(1),
+  keyword: z.string().trim().min(1).max(200),
+});
+
+/** URL search params for /p/$projectId/questions. */
+export const keywordQuestionsSearchSchema = z.object({
+  q: z.string().optional(),
+});
+
 export const serpAnalysisSchema = z.object({
   projectId: z.string().min(1),
   keyword: z.string().min(1),

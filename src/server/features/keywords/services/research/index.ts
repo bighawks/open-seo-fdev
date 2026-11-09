@@ -1,5 +1,6 @@
 export { research } from "./research";
 export { getSerpAnalysis } from "./serp";
+export { researchQuestions } from "./questions";
 export {
   saveKeywords,
   getSavedKeywords,

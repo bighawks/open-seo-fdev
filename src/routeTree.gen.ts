@@ -56,6 +56,7 @@ import { Route as AppPProjectIdKeywordsRouteImport } from './routes/_app/p/$proj
 import { Route as AppPProjectIdLocalSeoRouteImport } from './routes/_app/p/$projectId/local-seo'
 import { Route as AppPProjectIdPageCheckRouteImport } from './routes/_app/p/$projectId/page-check'
 import { Route as AppPProjectIdPromptExplorerRouteImport } from './routes/_app/p/$projectId/prompt-explorer'
+import { Route as AppPProjectIdQuestionsRouteImport } from './routes/_app/p/$projectId/questions'
 import { Route as AppPProjectIdRankTrackingRouteImport } from './routes/_app/p/$projectId/rank-tracking'
 import { Route as AppPProjectIdSamRouteImport } from './routes/_app/p/$projectId/sam'
 import { Route as AppPProjectIdSavedRouteImport } from './routes/_app/p/$projectId/saved'
@@ -319,6 +320,11 @@ const AppPProjectIdPromptExplorerRoute =
     path: '/prompt-explorer',
     getParentRoute: () => AppPProjectIdRouteRoute,
   } as any)
+const AppPProjectIdQuestionsRoute = AppPProjectIdQuestionsRouteImport.update({
+  id: '/questions',
+  path: '/questions',
+  getParentRoute: () => AppPProjectIdRouteRoute,
+} as any)
 const AppPProjectIdRankTrackingRoute =
   AppPProjectIdRankTrackingRouteImport.update({
     id: '/rank-tracking',
@@ -501,6 +507,7 @@ export interface FileRoutesByFullPath {
   '/p/$projectId/local-seo': typeof AppPProjectIdLocalSeoRouteWithChildren
   '/p/$projectId/page-check': typeof AppPProjectIdPageCheckRoute
   '/p/$projectId/prompt-explorer': typeof AppPProjectIdPromptExplorerRoute
+  '/p/$projectId/questions': typeof AppPProjectIdQuestionsRoute
   '/p/$projectId/rank-tracking': typeof AppPProjectIdRankTrackingRouteWithChildren
   '/p/$projectId/sam': typeof AppPProjectIdSamRoute
   '/p/$projectId/saved': typeof AppPProjectIdSavedRoute
@@ -567,6 +574,7 @@ export interface FileRoutesByTo {
   '/p/$projectId/keywords': typeof AppPProjectIdKeywordsRoute
   '/p/$projectId/page-check': typeof AppPProjectIdPageCheckRoute
   '/p/$projectId/prompt-explorer': typeof AppPProjectIdPromptExplorerRoute
+  '/p/$projectId/questions': typeof AppPProjectIdQuestionsRoute
   '/p/$projectId/sam': typeof AppPProjectIdSamRoute
   '/p/$projectId/saved': typeof AppPProjectIdSavedRoute
   '/p/$projectId/search-performance': typeof AppPProjectIdSearchPerformanceRoute
@@ -639,6 +647,7 @@ export interface FileRoutesById {
   '/_app/p/$projectId/local-seo': typeof AppPProjectIdLocalSeoRouteWithChildren
   '/_app/p/$projectId/page-check': typeof AppPProjectIdPageCheckRoute
   '/_app/p/$projectId/prompt-explorer': typeof AppPProjectIdPromptExplorerRoute
+  '/_app/p/$projectId/questions': typeof AppPProjectIdQuestionsRoute
   '/_app/p/$projectId/rank-tracking': typeof AppPProjectIdRankTrackingRouteWithChildren
   '/_app/p/$projectId/sam': typeof AppPProjectIdSamRoute
   '/_app/p/$projectId/saved': typeof AppPProjectIdSavedRoute
@@ -711,6 +720,7 @@ export interface FileRouteTypes {
     | '/p/$projectId/local-seo'
     | '/p/$projectId/page-check'
     | '/p/$projectId/prompt-explorer'
+    | '/p/$projectId/questions'
     | '/p/$projectId/rank-tracking'
     | '/p/$projectId/sam'
     | '/p/$projectId/saved'
@@ -777,6 +787,7 @@ export interface FileRouteTypes {
     | '/p/$projectId/keywords'
     | '/p/$projectId/page-check'
     | '/p/$projectId/prompt-explorer'
+    | '/p/$projectId/questions'
     | '/p/$projectId/sam'
     | '/p/$projectId/saved'
     | '/p/$projectId/search-performance'
@@ -848,6 +859,7 @@ export interface FileRouteTypes {
     | '/_app/p/$projectId/local-seo'
     | '/_app/p/$projectId/page-check'
     | '/_app/p/$projectId/prompt-explorer'
+    | '/_app/p/$projectId/questions'
     | '/_app/p/$projectId/rank-tracking'
     | '/_app/p/$projectId/sam'
     | '/_app/p/$projectId/saved'
@@ -1232,6 +1244,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppPProjectIdPromptExplorerRouteImport
       parentRoute: typeof AppPProjectIdRouteRoute
     }
+    '/_app/p/$projectId/questions': {
+      id: '/_app/p/$projectId/questions'
+      path: '/questions'
+      fullPath: '/p/$projectId/questions'
+      preLoaderRoute: typeof AppPProjectIdQuestionsRouteImport
+      parentRoute: typeof AppPProjectIdRouteRoute
+    }
     '/_app/p/$projectId/rank-tracking': {
       id: '/_app/p/$projectId/rank-tracking'
       path: '/rank-tracking'
@@ -1497,6 +1516,7 @@ interface AppPProjectIdRouteRouteChildren {
   AppPProjectIdLocalSeoRoute: typeof AppPProjectIdLocalSeoRouteWithChildren
   AppPProjectIdPageCheckRoute: typeof AppPProjectIdPageCheckRoute
   AppPProjectIdPromptExplorerRoute: typeof AppPProjectIdPromptExplorerRoute
+  AppPProjectIdQuestionsRoute: typeof AppPProjectIdQuestionsRoute
   AppPProjectIdRankTrackingRoute: typeof AppPProjectIdRankTrackingRouteWithChildren
   AppPProjectIdSamRoute: typeof AppPProjectIdSamRoute
   AppPProjectIdSavedRoute: typeof AppPProjectIdSavedRoute
@@ -1520,6 +1540,7 @@ const AppPProjectIdRouteRouteChildren: AppPProjectIdRouteRouteChildren = {
   AppPProjectIdLocalSeoRoute: AppPProjectIdLocalSeoRouteWithChildren,
   AppPProjectIdPageCheckRoute: AppPProjectIdPageCheckRoute,
   AppPProjectIdPromptExplorerRoute: AppPProjectIdPromptExplorerRoute,
+  AppPProjectIdQuestionsRoute: AppPProjectIdQuestionsRoute,
   AppPProjectIdRankTrackingRoute: AppPProjectIdRankTrackingRouteWithChildren,
   AppPProjectIdSamRoute: AppPProjectIdSamRoute,
   AppPProjectIdSavedRoute: AppPProjectIdSavedRoute,

@@ -9,6 +9,7 @@ import {
   LayoutDashboard,
   Link2,
   MapPin,
+  MessageCircleQuestion,
   MessageSquare,
   ScanSearch,
   Search,
@@ -60,6 +61,11 @@ const projectNavItems = [
     to: "/p/$projectId/backlinks" as const,
     label: "Backlinks",
     icon: Link2,
+  },
+  {
+    to: "/p/$projectId/questions" as const,
+    label: "Questions",
+    icon: MessageCircleQuestion,
   },
   {
     to: "/p/$projectId/audit" as const,
@@ -142,6 +148,7 @@ export function getProjectNavGroups(projectId: string) {
         byPath("/p/$projectId/keywords"),
         byPath("/p/$projectId/domain"),
         byPath("/p/$projectId/backlinks"),
+        byPath("/p/$projectId/questions"),
       ],
     },
     {

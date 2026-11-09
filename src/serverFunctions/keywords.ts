@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import {
   deleteSavedKeywordTagSchema,
+  keywordQuestionsSchema,
   researchKeywordsSchema,
   saveKeywordsSchema,
   getSavedKeywordsSchema,
@@ -133,6 +134,17 @@ export const getSerpAnalysis = createServerFn({ method: "POST" })
         ...resolveMarket(data, context.project),
         projectId: context.projectId,
       },
+      context,
+    ),
+  );
+
+/** Questions and phrases around a keyword, in the project's market. */
+export const researchKeywordQuestions = createServerFn({ method: "POST" })
+  .middleware(requireProjectContext)
+  .validator(keywordQuestionsSchema)
+  .handler(async ({ data, context }) =>
+    KeywordResearchService.researchQuestions(
+      { keyword: data.keyword, ...resolveMarket({}, context.project) },
       context,
     ),
   );

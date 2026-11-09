@@ -380,7 +380,7 @@ export function createDataforseoClient(customer: BillingCustomerContext) {
  * requests per rank check batch, and enough of them hit the SDK's timeout to
  * drop charges.
  */
-async function meterDataforseoCalls<T>(
+export async function meterDataforseoCalls<T>(
   customer: BillingCustomerContext,
   executes: Array<() => Promise<DataforseoApiResponse<T>>>,
   callCredits: number[],
