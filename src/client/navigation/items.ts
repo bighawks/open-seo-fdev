@@ -10,6 +10,7 @@ import {
   Link2,
   MapPin,
   MessageSquare,
+  ScanSearch,
   Search,
   TrendingUp,
 } from "lucide-react";
@@ -64,6 +65,11 @@ const projectNavItems = [
     to: "/p/$projectId/audit" as const,
     label: "Site Audit",
     icon: ClipboardCheck,
+  },
+  {
+    to: "/p/$projectId/page-check" as const,
+    label: "Page Check",
+    icon: ScanSearch,
   },
   {
     to: "/p/$projectId/ai-visibility" as const,
@@ -154,6 +160,7 @@ export function getProjectNavGroups(projectId: string) {
         byPath("/p/$projectId/local-seo"),
         byPath("/p/$projectId/saved"),
         byPath("/p/$projectId/audit"),
+        byPath("/p/$projectId/page-check"),
       ],
     },
     {

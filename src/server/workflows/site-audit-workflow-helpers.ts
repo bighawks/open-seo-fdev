@@ -1,6 +1,6 @@
 import { MAX_HTML_BYTES, readTextUpTo } from "@/server/lib/audit/html-response";
 import { classifyFetch } from "@/server/lib/audit/classify-fetch";
-import type { CrawledPageResult } from "@/server/lib/audit/types";
+import type { CrawledPageResult, PageAnalysis } from "@/server/lib/audit/types";
 import type { RenderedPage } from "@/server/lib/audit/rendered-page";
 import type { PageFetchClass } from "@/shared/audit-fetch-class";
 import { sha256Hex } from "@/server/lib/audit/ids";
@@ -11,7 +11,7 @@ import { crawlerHeadersFor, type CrawlerAccess } from "@/shared/crawler-access";
 import { auditRequestHeaders } from "@/server/lib/audit/web-bot-auth";
 
 /** Parse `Link: <url>; rel="canonical"` response headers. */
-function parseLinkHeaderCanonical(
+export function parseLinkHeaderCanonical(
   linkHeader: string | null,
   pageUrl: string,
 ): string | null {
@@ -244,66 +244,16 @@ export async function crawlPage(
     // not just when an audit actually crawls.
     const { analyzeHtml } = await import("@/server/lib/audit/page-analyzer");
     const analysis = analyzeHtml(body, url, statusCode, responseTimeMs);
-    // Rendered HTML can still be the loading shell (a weak render), so the
-    // same check applies whether or not the page was rendered.
-    const javascriptShell = analysis.javascriptShell === true;
-    const robotsDirectives = [analysis.robotsMeta, xRobotsTag]
-      .filter(Boolean)
-      .join(",")
-      .toLowerCase();
-    const isIndexable = !robotsDirectives.includes("noindex");
-    const headingCount = (level: number) =>
-      analysis.headingOrder.filter((h) => h === level).length;
-
-    // Parser strings can be V8 slices backed by the entire HTML body. Detach
-    // the finished result before persistence queues retain it: otherwise a
-    // few KB of metadata can keep ~2 MiB of decoded HTML alive per page.
-    return structuredClone({
-      id: crypto.randomUUID(),
+    return analyzedPageResult({
+      analysis,
       url,
       statusCode,
       fetchClass,
-      redirectUrl: null,
-      title: analysis.title,
-      metaDescription: analysis.metaDescription,
-      canonicalUrl: analysis.canonical
-        ? (normalizeUrl(analysis.canonical, url, {
-            keepTrackingParams: true,
-          }) ?? analysis.canonical)
-        : null,
-      robotsMeta: analysis.robotsMeta,
       xRobotsTag,
       headerCanonicalUrl,
-      ogTitle: analysis.ogTitle,
-      ogDescription: analysis.ogDescription,
-      ogImage: analysis.ogImage,
-      h1Count: analysis.h1s.filter((h) => h.length > 0).length,
-      h2Count: headingCount(2),
-      h3Count: headingCount(3),
-      h4Count: headingCount(4),
-      h5Count: headingCount(5),
-      h6Count: headingCount(6),
-      headingOrder: analysis.headingOrder,
-      wordCount: analysis.wordCount,
-      contentHash:
-        analysis.bodyText && !javascriptShell
-          ? await sha256Hex(analysis.bodyText)
-          : null,
-      isHtml: true,
-      javascriptShell,
+      responseTimeMs,
       htmlBytes: body.length,
       rateLimited,
-      imagesTotal: analysis.images.length,
-      // Only a truly absent alt attribute counts: alt="" is the correct
-      // markup for decorative images.
-      imagesMissingAlt: analysis.images.filter((img) => img.alt === null)
-        .length,
-      images: analysis.images,
-      links: analysis.links,
-      hasStructuredData: analysis.hasStructuredData,
-      hreflangTags: analysis.hreflangTags,
-      isIndexable,
-      responseTimeMs,
       crawlDepth,
       inSitemap,
     });
@@ -325,6 +275,100 @@ export async function crawlPage(
       inSitemap,
     });
   }
+}
+
+/**
+ * The page row for one analyzed HTML page. The single-page check builds its
+ * row here too, so it reports the same issues an audit would.
+ */
+export async function analyzedPageResult(input: {
+  analysis: PageAnalysis;
+  url: string;
+  statusCode: number;
+  fetchClass: PageFetchClass;
+  xRobotsTag: string | null;
+  headerCanonicalUrl: string | null;
+  responseTimeMs: number;
+  htmlBytes: number;
+  rateLimited: boolean;
+  crawlDepth: number | null;
+  inSitemap: boolean;
+}): Promise<CrawledPageResult> {
+  const {
+    analysis,
+    url,
+    statusCode,
+    fetchClass,
+    xRobotsTag,
+    headerCanonicalUrl,
+    responseTimeMs,
+    htmlBytes,
+    rateLimited,
+    crawlDepth,
+    inSitemap,
+  } = input;
+  // Rendered HTML can still be the loading shell (a weak render), so the
+  // same check applies whether or not the page was rendered.
+  const javascriptShell = analysis.javascriptShell === true;
+  const robotsDirectives = [analysis.robotsMeta, xRobotsTag]
+    .filter(Boolean)
+    .join(",")
+    .toLowerCase();
+  const isIndexable = !robotsDirectives.includes("noindex");
+  const headingCount = (level: number) =>
+    analysis.headingOrder.filter((h) => h === level).length;
+
+  // Parser strings can be V8 slices backed by the entire HTML body. Detach
+  // the finished result before persistence queues retain it: otherwise a
+  // few KB of metadata can keep ~2 MiB of decoded HTML alive per page.
+  return structuredClone({
+    id: crypto.randomUUID(),
+    url,
+    statusCode,
+    fetchClass,
+    redirectUrl: null,
+    title: analysis.title,
+    metaDescription: analysis.metaDescription,
+    canonicalUrl: analysis.canonical
+      ? (normalizeUrl(analysis.canonical, url, {
+          keepTrackingParams: true,
+        }) ?? analysis.canonical)
+      : null,
+    robotsMeta: analysis.robotsMeta,
+    xRobotsTag,
+    headerCanonicalUrl,
+    ogTitle: analysis.ogTitle,
+    ogDescription: analysis.ogDescription,
+    ogImage: analysis.ogImage,
+    h1Count: analysis.h1s.filter((h) => h.length > 0).length,
+    h2Count: headingCount(2),
+    h3Count: headingCount(3),
+    h4Count: headingCount(4),
+    h5Count: headingCount(5),
+    h6Count: headingCount(6),
+    headingOrder: analysis.headingOrder,
+    wordCount: analysis.wordCount,
+    contentHash:
+      analysis.bodyText && !javascriptShell
+        ? await sha256Hex(analysis.bodyText)
+        : null,
+    isHtml: true,
+    javascriptShell,
+    htmlBytes,
+    rateLimited,
+    imagesTotal: analysis.images.length,
+    // Only a truly absent alt attribute counts: alt="" is the correct
+    // markup for decorative images.
+    imagesMissingAlt: analysis.images.filter((img) => img.alt === null).length,
+    images: analysis.images,
+    links: analysis.links,
+    hasStructuredData: analysis.hasStructuredData,
+    hreflangTags: analysis.hreflangTags,
+    isIndexable,
+    responseTimeMs,
+    crawlDepth,
+    inSitemap,
+  });
 }
 
 function emptyPageResult(input: {

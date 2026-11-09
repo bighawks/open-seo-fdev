@@ -1,4 +1,5 @@
 import { afterEach, expect, it, vi } from "vitest";
+import { z } from "zod";
 import { fetchPageSpeedLighthouse } from "./pagespeed";
 
 afterEach(() => {
@@ -32,7 +33,7 @@ it("asks for all four categories and stores PageSpeed's report like DataForSEO's
 
   const stored = await fetchPageSpeedLighthouse(input);
 
-  const url = new URL(String(fetchMock.mock.calls[0]?.[0]));
+  const url = new URL(z.string().parse(fetchMock.mock.calls[0]?.[0]));
   expect(url.searchParams.get("strategy")).toBe("MOBILE");
   expect(url.searchParams.getAll("category")).toEqual([
     "PERFORMANCE",

@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { LIGHTHOUSE_CATEGORIES } from "@/shared/lighthouse";
 
-export type RawLighthouseAudit = {
+type RawLighthouseAudit = {
   title?: string;
   description?: string;
   score?: number | null;
@@ -16,7 +16,7 @@ export type RawLighthouseAudit = {
   };
 };
 
-export type RawLighthouseCategory = {
+type RawLighthouseCategory = {
   score?: number | null;
   auditRefs?: Array<{
     id?: string;
@@ -88,9 +88,7 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
-export function scoreToPercent(
-  score: number | null | undefined,
-): number | null {
+function scoreToPercent(score: number | null | undefined): number | null {
   if (typeof score !== "number" || Number.isNaN(score)) return null;
   return Math.round(score * 100);
 }
