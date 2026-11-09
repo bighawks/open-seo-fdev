@@ -9,10 +9,12 @@ This is an independent fork of [OpenSEO](https://github.com/every-app/open-seo),
 ## What it does
 
 - **Keyword research:** ideas, search volumes and difficulty.
+- **Questions:** what people type into Google around a keyword, grouped by question word, preposition and comparison, like AnswerThePublic.
 - **Competitors:** domain overviews and the keywords a site ranks for.
 - **Backlinks:** a domain's link profile and referring domains.
 - **Rank tracking and local SEO:** scheduled position checks, including local results.
 - **Site audits:** crawl a site for broken links, missing tags and pages Google can't index.
+- **Page Check:** one page's title, description, headings, links, structured data and social tags, like an SEO browser extension. Free: no DataForSEO call.
 - **Search Console and Google Analytics:** your own traffic data next to the research.
 - **AI visibility:** see whether ChatGPT, Gemini, Claude, Perplexity and Google AI Overviews mention your brand and cite your site.
 - **Reports and project memory:** save findings and context for each site you work on.
@@ -30,6 +32,7 @@ The AI engines listed under AI visibility are what the app measures, through Dat
 - **Claude only.** The app calls the Anthropic API directly. OpenRouter, GPT and MiniMax are gone.
 - **Lower AI costs.** Prompt caching cuts the cost of SAM's later turns by about 90%.
 - **SAM keeps its replies on Docker.** celld, the runtime behind the Docker edition, is updated to 0.6.3. On 0.5.1, replies to turns that used no tools disappeared on reload.
+- **Free Lighthouse.** With `GOOGLE_PAGESPEED_API_KEY` set, site audits run Lighthouse through Google PageSpeed Insights instead of paying DataForSEO.
 - **No other clients.** Support and setup guides for ChatGPT, Codex, Cursor and similar clients are removed. Other MCP clients may still connect, but they are not supported here.
 
 ## Run it with Docker
