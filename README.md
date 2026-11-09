@@ -45,13 +45,14 @@ cp deploy/standalone/.env.example deploy/standalone/.env
 
 In `deploy/standalone/.env`, set:
 
-| Variable             | Value                                                                   |
-| -------------------- | ----------------------------------------------------------------------- |
-| `STORAGE_SECRET_KEY` | A unique random value, for example the output of `openssl rand -hex 32` |
-| `DATAFORSEO_API_KEY` | Your DataForSEO key                                                     |
-| `ANTHROPIC_API_KEY`  | Your Anthropic key                                                      |
-| `ANTHROPIC_MODEL`    | Optional. The default is `claude-sonnet-5-5`                            |
-| `OPENSEO_IMAGE`      | `openseo-fdev:local`, so the build doesn't reuse upstream's image name  |
+| Variable                   | Value                                                                                                          |
+| -------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `STORAGE_SECRET_KEY`       | A unique random value, for example the output of `openssl rand -hex 32`                                        |
+| `DATAFORSEO_API_KEY`       | Your DataForSEO key                                                                                            |
+| `ANTHROPIC_API_KEY`        | Your Anthropic key                                                                                             |
+| `ANTHROPIC_MODEL`          | Optional. The default is `claude-sonnet-5-5`                                                                   |
+| `OPENSEO_IMAGE`            | `openseo-fdev:local`, so the build doesn't reuse upstream's image name                                         |
+| `GOOGLE_PAGESPEED_API_KEY` | Optional. Runs the site audit's Lighthouse checks free through Google PageSpeed Insights instead of DataForSEO |
 
 Then build and start it:
 

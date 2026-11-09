@@ -75,6 +75,8 @@ declare namespace Cloudflare {
     GOOGLE_CLIENT_ID?: string;
     GOOGLE_CLIENT_SECRET?: string;
     GOOGLE_MAPS_API_KEY?: string;
+    // Optional: free Lighthouse through PageSpeed Insights instead of DataForSEO.
+    GOOGLE_PAGESPEED_API_KEY?: string;
     LOOPS_API_KEY?: string;
     LOOPS_TRANSACTIONAL_VERIFY_EMAIL_ID?: string;
     LOOPS_TRANSACTIONAL_RESET_PASSWORD_ID?: string;

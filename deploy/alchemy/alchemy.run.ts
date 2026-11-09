@@ -282,6 +282,7 @@ const dataEnv = {
   GOOGLE_CLIENT_ID: optionalVar("GOOGLE_CLIENT_ID"),
   GOOGLE_CLIENT_SECRET: optionalSecret("GOOGLE_CLIENT_SECRET"),
   GOOGLE_MAPS_API_KEY: optionalSecret("GOOGLE_MAPS_API_KEY"),
+  GOOGLE_PAGESPEED_API_KEY: optionalSecret("GOOGLE_PAGESPEED_API_KEY"),
   ANTHROPIC_API_KEY: optionalSecret("ANTHROPIC_API_KEY"),
   ANTHROPIC_MODEL: optionalVar("ANTHROPIC_MODEL"),
   CONTEXT_API_KEY: optionalSecret("CONTEXT_API_KEY"),
@@ -439,7 +440,7 @@ export default Alchemy.Stack(
         R2: resources.R2,
         // Deliberately NOT ...dataEnv: this worker crawls and parses
         // attacker-influenced HTML, so it gets only the secrets its code
-        // path reads — DataForSEO (Lighthouse), Autumn (metering), PostHog
+        // path reads — DataForSEO and PageSpeed (Lighthouse), Autumn (metering), PostHog
         // (capture), CRAWLER_ACCESS_SECRET (Shopify signatures),
         // WEB_BOT_AUTH_JWK (request signing). No auth/OAuth/Loops/Turnstile
         // secrets.
@@ -448,6 +449,7 @@ export default Alchemy.Stack(
         WEB_BOT_AUTH_JWK: dataEnv.WEB_BOT_AUTH_JWK,
         CONTEXT_API_KEY: dataEnv.CONTEXT_API_KEY,
         DATAFORSEO_API_KEY: dataEnv.DATAFORSEO_API_KEY,
+        GOOGLE_PAGESPEED_API_KEY: dataEnv.GOOGLE_PAGESPEED_API_KEY,
         AUTUMN_SECRET_KEY: dataEnv.AUTUMN_SECRET_KEY,
         POSTHOG_PUBLIC_KEY: dataEnv.POSTHOG_PUBLIC_KEY,
         POSTHOG_HOST: dataEnv.POSTHOG_HOST,

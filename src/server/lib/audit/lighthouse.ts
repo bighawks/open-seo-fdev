@@ -1,6 +1,8 @@
 import { detectUrlTemplate, canonicalUrlKey } from "./url-utils";
 import type { BillingCustomerContext } from "@/server/billing/subscription";
 import { createDataforseoClient } from "@/server/lib/dataforseo";
+import { fetchPageSpeedLighthouse } from "@/server/lib/pagespeed";
+import { getOptionalEnvValue } from "@/server/lib/runtime-env";
 import type { LighthouseResult, LighthouseStrategy } from "./types";
 import type { PageFetchClass } from "@/shared/audit-fetch-class";
 import { putTextToR2 } from "@/server/lib/r2";
@@ -56,9 +58,16 @@ export async function fetchLighthouseResult(
   strategy: "mobile" | "desktop",
   billingCustomer: BillingCustomerContext,
 ): Promise<LighthouseFetchResult> {
-  const dataforseo = createDataforseoClient(billingCustomer);
   try {
-    const data = await dataforseo.lighthouse.live({ url, strategy });
+    // PageSpeed Insights is free; without its key the paid DataForSEO
+    // endpoint runs the same Lighthouse report.
+    const pageSpeedKey = await getOptionalEnvValue("GOOGLE_PAGESPEED_API_KEY");
+    const data = pageSpeedKey
+      ? await fetchPageSpeedLighthouse({ url, strategy, apiKey: pageSpeedKey })
+      : await createDataforseoClient(billingCustomer).lighthouse.live({
+          url,
+          strategy,
+        });
 
     return {
       result: {
